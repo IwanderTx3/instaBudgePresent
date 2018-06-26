@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "*",
+    "bcrypt": "^2.0.1",
     "body-parser": "*",
     "cookie-parser": "*",
     "cool-ascii-faces": "*",
@@ -19,6 +19,8 @@
     "express": "*",
     "express-session": "*",
     "morgan": "*",
+    "mustache-express": "^1.2.5",
+    "nodemon": "^1.17.5",
     "pg": "*",
     "sequelize": "*"
   }
