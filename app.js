@@ -4,12 +4,26 @@ require("dotenv").config()
 var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
+var mustacheExpress = require('mustache-express');
 var session = require('express-session');
 var morgan = require('morgan');
 var User = require('./models/user');
+var path = require('path');
 
 // invoke an instance of express application.
 var app = express();
+
+// set static path
+app.use(express.static(path.join(__dirname, 'public')))
+
+// set mustache views engine
+app.engine('mustache', mustacheExpress());
+
+// mustache pages will be inside the views folder
+app.set('views', './views');
+app.set('view engine', 'mustache');
+
+
 
 // set our application port
 app.set('port', 3000);
@@ -63,7 +77,7 @@ app.get('/', sessionChecker, (req, res) => {
 // route for user signup
 app.route('/signup')
     .get(sessionChecker, (req, res) => {
-        res.sendFile(__dirname + '/public/signup.html');
+        res.render('signup');
     })
     .post((req, res) => {
         User.create({
@@ -84,7 +98,7 @@ app.route('/signup')
 // route for user Login
 app.route('/login')
     .get(sessionChecker, (req, res) => {
-        res.sendFile(__dirname + '/public/login.html');
+        res.render('login');
     })
     .post((req, res) => {
         var username = req.body.username,
@@ -106,7 +120,7 @@ app.route('/login')
 // route for user's dashboard
 app.get('/dashboard', (req, res) => {
     if (req.session.user && req.cookies.user_sid) {
-        res.sendFile(__dirname + '/public/dashboard.html');
+        res.render('dashboard');
     } else {
         res.redirect('/login');
     }

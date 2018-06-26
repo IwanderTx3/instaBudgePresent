@@ -19,6 +19,8 @@
     "express": "*",
     "express-session": "*",
     "morgan": "*",
+    "mustache-express": "^1.2.5",
+    "nodemon": "^1.17.5",
     "pg": "*",
     "sequelize": "*"
   }
