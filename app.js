@@ -112,24 +112,6 @@ app.get('/dashboard', (req, res) => {
     }
 });
 
-// route for budget tracker
-app.get('/tracker', (req, res) => {
-    if (req.session.user && req.cookies.user_sid) {
-        res.sendFile(__dirname + '/public/tracker.html');
-    } else {
-        res.redirect('/login');
-    }
-});
-
-// route for quick expense
-app.get('/expense', (req, res) => {
-    if (req.session.user && req.cookies.user_sid) {
-        res.sendFile(__dirname + '/public/expense.html');
-    } else {
-        res.redirect('/login');
-    }
-});
-
 
 // route for user logout
 app.get('/logout', (req, res) => {
