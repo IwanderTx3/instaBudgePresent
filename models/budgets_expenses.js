@@ -5,10 +5,8 @@ var Sequelize = require('sequelize');
 
 const sequelize = new Sequelize('postgres://localhost:5432/instabudget')
 
+
 // setup Expense model and its fields
-
-
-// setup Budget model and its fields
 var Expense = sequelize.define('expenses', {
     title: {
         type: Sequelize.STRING,
@@ -19,11 +17,14 @@ var Expense = sequelize.define('expenses', {
         type: Sequelize.DECIMAL(10,2),
         allowNull: false
     },
+   
     // Timestamps
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE,
 });
-  
+
+Expense.belongsTo(User, {foreignKey: 'owner_id'});
+User.hasOne(Expense, {foreignKey: 'owner_id'});
 
 
 // create all the defined tables in the specified database
