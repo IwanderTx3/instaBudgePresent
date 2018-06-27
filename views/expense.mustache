@@ -65,9 +65,17 @@
       <td>Sample name</td>
       <td>Sample amount</td>
       <td>
-        <button type="button" class="btn btn-warning">Log Item</button>
-        <button type="button" class="btn btn-danger"> Delete </button>
-      </td>
+       
+         <button type="button" class="btn btn-warning" edit-item
+                                data-toggle="modal"
+                                data-target="#editFormModal"
+                                data-id="{{itemid}}"
+                                data-name="{{itemName}}"
+                                data-qty="{{qty}}"
+                        
+                        >Log Item</button>
+                        <button type="button" class="btn btn-danger">Delete</button>
+                        </td>
     </tr>
     <tr>
       <th scope="row">6/24/18</th>
@@ -75,8 +83,17 @@
       <td>Sample name</td>
       <td>Sample amount</td>
       <td>
-        <button type="button" class="btn btn-warning">Log Item</button>
-        <button type="button" class="btn btn-danger"> Delete </button>
+           <button type="button" class="btn btn-warning" edit-item
+                                data-toggle="modal"
+                                data-target="#editFormModal"
+                                data-id="{{itemid}}"
+                                data-name="{{itemName}}"
+                                data-qty="{{qty}}"
+                        
+                        >Log Item</button>
+                        <button type="button" class="btn btn-danger">Delete</button>
+                        </td>
+        
       </td>
   </tbody>
 </table> 
@@ -99,7 +116,45 @@
     <p class="footer-text justify-content-end">© 2018 InstaBudget, Inc. All rights reserved.</p>
 </nav>
 
+ <!-- Log Expense Modal -->
 
+    <div class="modal fade" id="editFormModal" tabindex="-1" role="dialog" aria-labelledby="editFormModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <form method="POST" action="/edit">
+
+              <input type="hidden" id="edit-form-id" name="id" />
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Log Expense</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 <div class="form-group">
+                    <input placeholder="Expense" type="text" class="form-control" name="itemName" id="edit-form-itemname"/>
+                  </div>
+                  <div class="form-group">
+                    <input placeholder="Amount Spent" type="text" class="form-control" name="qty" id="edit-form-qty" />
+                  </div>
+                    <div class="form-group">
+    <select class="custom-select">
+      <option selected="">Choose Category</option>
+      <option value="1">Games</option>
+      <option value="2">Coffee</option>
+      <option value="3">Tolls</option>
+    </select>
+  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <input type="submit" class="btn btn-primary" value="Add" />
+                </div>
+              </form>
+            </div>
+        </div>
+    </div>
+   
 
 
 
@@ -117,42 +172,3 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
   </body>
 </html>
-
-
-{{! <html>
-    <head>
-        <title>Login Here</title>
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
-
-    
-
-
-        <div class="page-header">
-            <h5>Budget Tracker</h5>
-        </div>
-
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <!-- Collect the nav links, forms, and other content for toggling -->
-                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                    <ul class="nav navbar-nav">
-                        <li><a href="/">Home</a></li>
-                        <li><a href="/signup">Sign Up</a></li>
-                        <li><a href=" justify-content-center dashboard">Dashboard</a></li>
-                    </ul>
-
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a </a></li>
-                        <li><a </a></li>
-                    </ul>
-                </div><!-- /.navbar-collapse -->
-            </div><!-- /.container-fluid -->
-        </nav>
-
-        <div class="container row">
-           <h1>Welcome to quick expense page</h1>
-        </div>
-    </body>
-</html> }}
