@@ -20,6 +20,7 @@ body{
 .force-to-bottom {
     position:absolute;
     bottom:0;
+    left: 0;
     width: 100%;
   }
 
@@ -28,3 +29,28 @@ body{
     height: 25px;
     background-color: yellow
 }
+
+.card-header{
+    margin-left: 50px;
+}
+
+.card{
+    margin-left: 50px;
+    display: flex;
+    flex-direction: row;
+}
+
+.card-body{
+    color: black    
+}
+
+.card-title{
+    color: black    
+}
+
+.card-text{
+margin: 0px 5px 0px auto;
+    color: black    
+}
+
+
