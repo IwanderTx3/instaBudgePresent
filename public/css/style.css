@@ -20,6 +20,7 @@ body{
 .force-to-bottom {
     position:absolute;
     bottom:0;
+    left: 0;
     width: 100%;
   }
 
@@ -27,4 +28,79 @@ body{
     border-style: groove;
     height: 25px;
     background-color: yellow
+}
+
+
+
+.catbtn{
+    margin: 25px 0px 25px 25px;
+}
+.card-header{
+    margin-left: 50px;
+    padding: 0px 20px 0px 20px;
+    max-width: 90%
+}
+
+.card{
+    margin-left: 50px;
+    display: flex;
+    flex-direction: row;
+}
+
+.card-body{
+    color: black;    
+}
+
+.card-matching{
+    max-width: 100%;
+
+}
+.card-by-item-header{
+    margin-left: 50px;
+    display: inline-grid;
+    grid-template-areas: 'date expense expense expense amount btn';
+    grid-gap: 10px;
+    padding: 10px;
+    width: 100%;
+}    
+
+.card-by-item-header .card-amount{
+    text-align: left;
+}
+
+.card-by-item{
+    
+    display: inline-grid;
+    grid-template-areas: 'date expense expense expense amount btn';
+    grid-gap: 10px;
+    padding: 10px;
+    width: 100%;
+}    
+
+
+
+.card-date{
+    grid-area: date;
+    width: 75px;
+    text-align: center;
+}
+
+.card-expense{
+    grid-area: expense;
+    width: 200px;
+    text-align: left;
+}
+
+.card-amount{
+    grid-area: amount;
+    width: 100px;
+    text-align: right;
+}
+
+
+
+.card-btn{
+    width: 100%;
+    justify-content: end;
+    grid-area: btn;
 }
