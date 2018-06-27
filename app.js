@@ -126,6 +126,32 @@ app.get('/dashboard', (req, res) => {
     }
 });
 
+// route for user's dashboard
+app.get('/dashboard', (req, res) => {
+    if (req.session.user && req.cookies.user_sid) {
+        res.render('dashboard');
+    } else {
+        res.redirect('/login');
+    }
+});
+
+// route for Quick expense page
+app.get('/expense', (req, res) => {
+    if (req.session.user && req.cookies.user_sid) {
+        res.render('expense');
+    } else {
+        res.redirect('/login');
+    }
+});
+
+// route for Budget tracking page
+app.get('/tracking', (req, res) => {
+    if (req.session.user && req.cookies.user_sid) {
+        res.render('tracking');
+    } else {
+        res.redirect('/login');
+    }
+});
 
 // route for user logout
 app.get('/logout', (req, res) => {
