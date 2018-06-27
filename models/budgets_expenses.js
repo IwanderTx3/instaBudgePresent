@@ -1,4 +1,6 @@
 var Sequelize = require('sequelize');
+var User = require('./user');
+
 
 
 // const sequelize = new Sequelize('postgres://instabudget:digitalcrafts@instabudget.cuzupkl5r98f.us-east-2.rds.amazonaws.com:5432/instabudget');
@@ -23,8 +25,8 @@ var Expense = sequelize.define('expenses', {
     updatedAt: Sequelize.DATE,
 });
 
-Expense.belongsTo(User, {foreignKey: 'owner_id'});
-User.hasOne(Expense, {foreignKey: 'owner_id'});
+User.hasOne(Expense, { foreignKey: 'userid' })
+// MainDashboard.belongsTo(MainClient, { foreignKey: 'clientId' })
 
 
 // create all the defined tables in the specified database
