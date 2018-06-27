@@ -1,5 +1,5 @@
 var Sequelize = require('sequelize');
-var bcrypt = require('bcrypt');
+var bcrypt = require('bcryptjs');
 
 // create a sequelize instance with our local postgres database information
 // var sequelize = new Sequelize('budget_app_db://fduluc@localhost:5432/');

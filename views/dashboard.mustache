@@ -38,7 +38,10 @@
       <a class="btn btn-primary btn-lg" href="/quickexpense" role="button">Quick Expense</a>
     </div>
     <div class="col-sm justify-content-center dashboard-buttons">
-      <a class="btn btn-primary btn-lg" href="#" role="button">Set Budget</a>
+    
+       <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#formModal">
+                Set Budget
+            </button>
     </div>
     <div class="col-sm justify-content-center dashboard-buttons">
       <a class="btn btn-primary btn-lg" href="#" role="button">Log Expense</a>
@@ -54,6 +57,34 @@
     <p class="footer-text justify-content-end">© 2018 InstaBudget, Inc. All rights reserved.</p>
 </nav>
 
+ <!-- Set Budget Modal -->
+    <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <form method="POST" action="/add">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Set Budget</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                  <div class="form-group">
+                    <input placeholder="Budget Name" type="text" class="form-control" name="shoppingListName" />
+                  </div>
+
+                 <div class="form-group">
+                    <input placeholder="Budget Amount" type="text" class="form-control" name="itemName" />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <input type="submit" class="btn btn-primary" value="Set" />
+                </div>
+              </form>
+            </div>
+        </div>
+    </div>
 
 
 

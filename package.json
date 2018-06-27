@@ -11,7 +11,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+<<<<<<< HEAD
     "bcrypt": "^2.0.1",
+=======
+>>>>>>> master
     "bcryptjs": "^2.4.3",
     "body-parser": "*",
     "cookie-parser": "*",
