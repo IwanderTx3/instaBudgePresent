@@ -22,3 +22,9 @@ body{
     bottom:0;
     width: 100%;
   }
+
+.progress{
+    border-style: groove;
+    height: 25px;
+    background-color: yellow
+}
