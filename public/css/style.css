@@ -57,44 +57,47 @@ body{
 }
 .card-by-item-header{
     margin-left: 50px;
-    display: grid;
-    grid-template-areas: 'date expense expense expense amount space btn';
-    grid-gap: 10px;
-    padding: 10px;
-    width: 90%;
-}    
-
-.card-by-item{
-    
-    display: grid;
-    grid-template-areas: 'date expense expense expense amount space btn';
+    display: inline-grid;
+    grid-template-areas: 'date expense expense expense amount btn';
     grid-gap: 10px;
     padding: 10px;
     width: 100%;
 }    
 
-.card-text{
-    margin: 0px 5px 0px auto;
+.card-by-item-header .card-amount{
+    text-align: left;
 }
+
+.card-by-item{
+    
+    display: inline-grid;
+    grid-template-areas: 'date expense expense expense amount btn';
+    grid-gap: 10px;
+    padding: 10px;
+    width: 100%;
+}    
+
+
 
 .card-date{
     grid-area: date;
+    width: 75px;
     text-align: center;
 }
 
 .card-expense{
     grid-area: expense;
+    width: 200px;
     text-align: left;
 }
 
 .card-amount{
     grid-area: amount;
+    width: 100px;
     text-align: right;
 }
 
-.card-spacer{
-    grid-area: space;
-}
+
 
 .card-btn{
     width: 100%;
