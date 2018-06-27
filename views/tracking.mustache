@@ -8,14 +8,15 @@
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
-    
+        <!-- added font awsome -->    
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
 
     <title>Budget Tracking</title>
   </head>
   <body>
 
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <a class="navbar-brand" href="#">InstaBudget</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -28,64 +29,54 @@
       </li>
     </ul>
 </nav>
-<div class="jumbotron">
-  <h3 class="header">Welcome to Budget Tracking page</h3>
-  <hr class="my-4">
+    <div class="jumbotron">
+    <h3 class="header">Welcome to Budget Tracking page</h3>
+    <hr class="my-4">
+        <div class="container">
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 75%"   style="height: 125px"  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Current Overall Status</div>
+            </div>
 
-<div class="container">
+            <div>
+                <button class="catbtn" data-toggle="collapse" data-target="#expenselog">By Catagory</button>
 
-<div class="progress">
-  <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: 75%"   style="height: 125px"  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">Current Overall Status</div>
-</div>
-
-<div>
-<button data-toggle="collapse" data-target="#expenselog">By Catagory</button>
-
-<div id="expenselog" class="collapse">
-<div class="card-header">
-<table class="table table-hover">
-  <tbody>
-    <thead>
-    <tr>
-      <th scope="col">Date</th>
-      <th scope="col">Catagory</th>
-      <th scope="col">Expense</th>
-      <th scope="col">Amount Spent</th>
-      <th scope="col">Action</th>
-    </tr>
-  </thead>
-    </tbody>
-</table> 
-</div>
-<div class="card border-primary mb-3" style="max-width: 90%;">
-  <div class="card-body">
-<table class="table table-hover">
-  <tbody>
-    <tr class="table">
-      <th scope="row">6/25/18</th>
-      <td>Sample Catagory</td>
-      <td>Sample name</td>
-      <td>Sample amount</td>
-      <td>
-        <button type="button" class="btn btn-danger"> Delete </button>
-      </td>
-    </tr>
-    </tbody>
-</table> 
+                <div id="expenselog" class="collapse">
+                <div class='card-matching'>
+                    <div class="card-by-item-header">
+                        <div class="card-date"> Date</div>
+                        <div class="card-expense"> Expense</div>
+                        <div class="card-amount">Amount</div>
+                        <div class="card-button">  </div>
+                    </div>
+                </div>
+                <div class="card border-primary mb-3" style="max-width: 90%;">
+                    <div class="card-by-item">
+                        <div class="card-date"> 6/25/18</div>
+                        <div class="card-expense"> Walking Dead season #3</div>
+                        <div class="card-amount">$24.95</div>
+                        <div class="card-btn"><button class="danger"><i class="fas fa-trash-alt"></i></button></div>
+                </div>
+                </div>
+                <div class="card border-primary mb-3" style="max-width: 90%;">
+                    <div class="card-by-item">
+                        <div class="card-date"> 6/23/18</div>
+                        <div class="card-expense"> Fall Out 76</div>
+                        <div class="card-amount">$74.95</div>
+                        <div class="card-btn"><button class="danger"><i class="fas fa-trash-alt"></i></button></div>
+                </div>
+                </div>
+                <div class="card border-primary mb-3" style="max-width: 90%;">
+                    <div class="card-by-item">
+                        <div class="card-date"> 6/22/18</div>
+                        <div class="card-expense"> Black OP coins</div>
+                        <div class="card-amount">$1.95</div>
+                        <div class="card-btn"><button class="danger"><i class="fas fa-trash-alt"></i></button></div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-<div class="card border-secondary mb-3" style="max-width: 90%;">
-  <div class="card-body">
-    <h4 class="card-title">6/25/18 Sample Expense Name <p class="card-text"> sample amount spent</p> </h4>
-  </div></div>
-</div>
-
-</div>
   
-</div>
-
-</div>
-    <nav class="navbar navbar-dark bg-primary force-to-bottom">
+<nav class="navbar navbar-dark bg-primary force-to-bottom">
     <p class="footer-text justify-content-end">© 2018 InstaBudget, Inc. All rights reserved.</p>
 </nav>
 
