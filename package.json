@@ -12,6 +12,7 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^2.0.1",
+    "bcryptjs": "^2.4.3",
     "body-parser": "*",
     "cookie-parser": "*",
     "cool-ascii-faces": "*",
