@@ -1,9 +1,9 @@
 var Sequelize = require('sequelize');
 
 
-// const sequelize = new Sequelize('postgres://instabudget:digitalcrafts@instabudget.cuzupkl5r98f.us-east-2.rds.amazonaws.com:5432/instabudget');
+const sequelize = new Sequelize('postgres://instabudget:digitalcrafts@instabudget.cuzupkl5r98f.us-east-2.rds.amazonaws.com:5432/InstaBudget');
 
-const sequelize = new Sequelize('postgres://localhost:5432/instabudget')
+//const sequelize = new Sequelize('postgres://localhost:5432/instabudget')
 
 // setup Expense model and its fields
 
@@ -22,6 +22,11 @@ var Expense = sequelize.define('expenses', {
     // Timestamps
     createdAt: Sequelize.DATE,
     updatedAt: Sequelize.DATE,
+    userid:   {
+        type: Sequelize.INTEGER,
+        unique: false,
+        allowNull: false
+    },
 });
   
 

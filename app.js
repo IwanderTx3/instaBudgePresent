@@ -1,6 +1,5 @@
 // load all env variables from .env file into process.env object.
 require("dotenv").config()
-
 var express = require('express');
 var bodyParser = require('body-parser');
 var cookieParser = require('cookie-parser');
@@ -10,7 +9,9 @@ var morgan = require('morgan');
 var User = require('./models/user');
 var Expense = require('./models/budgets_expenses');
 var path = require('path');
-
+let pgp = require('pg-promise')()
+let connectionString = 'postgres://instabudget:digitalcrafts@instabudget.cuzupkl5r98f.us-east-2.rds.amazonaws.com:5432/InstaBudget'
+let db = pgp(connectionString)
 // invoke an instance of express application.
 var app = express();
 
@@ -23,8 +24,6 @@ app.engine('mustache', mustacheExpress());
 // mustache pages will be inside the views folder
 app.set('views', './views');
 app.set('view engine', 'mustache');
-
-
 
 // set our application port
 app.set('port', 3000);
@@ -134,28 +133,38 @@ app.get('/dashboard', (req, res) => {
 
 
 // route to add quick expense
-app.post('/add_quick_expense', (req, res) => {
+app.post('/add_quick_expense', (req, res) => { 
+    console.log(req.body)
     if (req.session.user && req.cookies.user_sid) {
         Expense.create({
             title: req.body.title,
             amount: req.body.amount,
+            userid: req.session.user.id
         })
         .catch(error => {
             console.log(error)
             res.redirect('/signup');
         });
+        res.redirect('/quickexpense');
     } else {
-        res.redirect('/expense');
+        res.redirect('/quickexpense');
     }
 });
 
 // route for Quick expense page
-app.get('/quickexpense', (req, res) => {
-    if (req.session.user && req.cookies.user_sid) {
-        res.render('quickexpense');
-    } else {
-        res.redirect('/login');
-    }
+app.get('/quickexpense', (req, res) => 
+    {
+        if (req.session.user && req.cookies.user_sid) 
+        {
+            let usernum = req.session.user.id
+            console.log(usernum)
+            db.any('SELECT title, amount FROM expenses WHERE userid = $1',[usernum]) .then(function(data)
+            {
+                res.render('quickexpense',{itemList : data})
+            });
+        } else {
+            res.redirect('/login');
+        }
 });
 
 

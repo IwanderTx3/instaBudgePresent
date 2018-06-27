@@ -37,11 +37,7 @@
 
   <form method="POST" action="/add_quick_expense" >
   <div class="form-group">
-<<<<<<< HEAD:views/quickexpense.mustache
-  <input type="text" class="form-control" placeholder="Expense" id="inputDefault">
-=======
-  <input type="text" class="form-control" placeholder="Spent on.." id="inputDefault" name="title" required>
->>>>>>> origin/francisco_duluc:views/expense.mustache
+  <input type="text" class="form-control" placeholder="Expense" id="inputDefault" name='title'>
   </div>
   <div class="form-group">
     <div class="input-group mb-3">
@@ -55,25 +51,23 @@
   </div>
   </form>
 
-<table class="table table-hover">
-  <thead>
-    <tr>
-      <th scope="col">Date</th>
-      <th scope="col">Catagory</th>
-      <th scope="col">Expense</th>
-      <th scope="col">Amount Spent</th>
-      
-    </tr>
-  </thead>
-  <tbody>
-    <tr class="table-active">
-      <th scope="row">6/25/18</th>
-      <td>Sample Catagory</td>
-      <td>Sample name</td>
-      <td>Sample amount</td>
-      <td>
-       
-         <button type="button" class="btn btn-warning" edit-item
+<div class='card-matching'>
+                    <div class="card-by-item-header">
+                        <div class="card-date"> date </div>
+                        <div class="card-expense"> Expense </div>
+                        <div class="card-amount"> Amount</div>
+                           
+                    </div>
+                </div>
+  {{#itemList}}
+            <ul>
+                <li>
+                <div class="card border-primary mb-3" style="max-width: 90%;">
+                    <div class="card-by-item">
+                        <div class="card-date"> date</div>
+                        <div class="card-expense"> {{title}}</div>
+                        <div class="card-amount">{{amount}}</div>
+                          <div class="card-btn"><button type="button" class="btn btn-warning" edit-item
                                 data-toggle="modal"
                                 data-target="#editFormModal"
                                 data-id="{{itemid}}"
@@ -81,40 +75,16 @@
                                 data-qty="{{qty}}"
                         
                         >Log Item</button>
-                        <button type="button" class="btn btn-danger">Delete</button>
-                        </td>
-    </tr>
-    <tr>
-      <th scope="row">6/24/18</th>
-      <td>Sample Catagory</td>
-      <td>Sample name</td>
-      <td>Sample amount</td>
-      <td>
-           <button type="button" class="btn btn-warning" edit-item
-                                data-toggle="modal"
-                                data-target="#editFormModal"
-                                data-id="{{itemid}}"
-                                data-name="{{itemName}}"
-                                data-qty="{{qty}}"
-                        
-                        >Log Item</button>
-                        <button type="button" class="btn btn-danger">Delete</button>
-                        </td>
-        
-      </td>
-  </tbody>
-</table> 
+                        <button class="danger"><i class="fas fa-trash-alt"></i></button></div>
+                </div></li>
+            </ul>
+{{/itemList}}
 
 
-<div class="row">
-    
-  <div class="col-sm justify-content-center dashboard-buttons">
-    <a class="btn btn-primary btn-lg" href="#" role="button">Log Expense</a>
-  </div>
-  <div class="col-sm justify-content-center dashboard-buttons">
-    <a class="btn btn-primary btn-lg" href="#" role="button">Budget Tracker</a>
-  </div>
-</div>
+
+
+
+
  
 
   
