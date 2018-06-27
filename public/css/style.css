@@ -30,7 +30,13 @@ body{
     background-color: yellow
 }
 
+ul{
+    list-style: none;
+}
 
+li{
+    list-style: none;
+}
 
 .catbtn{
     margin: 25px 0px 25px 25px;

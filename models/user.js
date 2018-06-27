@@ -1,4 +1,4 @@
-var Sequelize = require('sequelize');
+ar Sequelize = require('sequelize');
 var bcrypt = require('bcryptjs');
 
 // create a sequelize instance with our local postgres database information
