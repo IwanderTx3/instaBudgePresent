@@ -9,9 +9,13 @@ var morgan = require('morgan');
 var User = require('./models/user');
 var Expense = require('./models/budgets_expenses');
 var path = require('path');
+
 let pgp = require('pg-promise')()
 let connectionString = 'postgres://instabudget:digitalcrafts@instabudget.cuzupkl5r98f.us-east-2.rds.amazonaws.com:5432/InstaBudget'
 let db = pgp(connectionString)
+
+//let connectionString = 'postgres://localhost:5432/instabudget'
+
 // invoke an instance of express application.
 var app = express();
 
@@ -133,25 +137,26 @@ app.get('/dashboard', (req, res) => {
 
 
 // route to add quick expense
-app.post('/add_quick_expense', (req, res) => { 
+
+app.post('/add_quick_expense', (req, res) => {
     console.log(req.body)
     if (req.session.user && req.cookies.user_sid) {
         Expense.create({
-            title: req.body.title,
-            amount: req.body.amount,
-            userid: req.session.user.id
-        })
-        .catch(error => {
-            console.log(error)
-            res.redirect('/signup');
-        });
+                title: req.body.title,
+                amount: req.body.amount,
+                userid: req.session.user.id
+            })
+            .catch(error => {
+                console.log(error)
+                res.redirect('/signup');
+            });
         res.redirect('/quickexpense');
     } else {
         res.redirect('/quickexpense');
     }
 });
-
 // route for Quick expense page
+
 app.get('/quickexpense', (req, res) => 
     {
         if (req.session.user && req.cookies.user_sid) 
@@ -165,8 +170,8 @@ app.get('/quickexpense', (req, res) =>
         } else {
             res.redirect('/login');
         }
-});
 
+});
 
 
 
