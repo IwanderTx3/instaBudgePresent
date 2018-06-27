@@ -1,4 +1,4 @@
-var Sequelize = require('sequelize');
+ar Sequelize = require('sequelize');
 var bcrypt = require('bcryptjs');
 
 // create a sequelize instance with our local postgres database information
@@ -50,3 +50,4 @@ module.exports = User
 sequelize.sync()
     .then(() => console.log('users table has been successfully created, if one doesn\'t exist'))
     .catch(error => console.log('This error occured', error));
+
