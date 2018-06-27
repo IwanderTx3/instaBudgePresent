@@ -138,7 +138,7 @@ app.get('/dashboard', (req, res) => {
 // route for Quick expense page
 app.get('/quickexpense', (req, res) => {
     if (req.session.user && req.cookies.user_sid) {
-        res.render('expense');
+        res.render('quickexpense');
     } else {
         res.redirect('/login');
     }
