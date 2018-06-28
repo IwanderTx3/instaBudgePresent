@@ -64,7 +64,7 @@ li{
 .card-by-item-header{
     margin-left: 50px;
     display: inline-grid;
-    grid-template-areas: 'date expense expense expense amount btn';
+    grid-template-areas: 'date expense expense cat amount btn';
     grid-gap: 10px;
     padding: 10px;
     width: 100%;
@@ -77,7 +77,7 @@ li{
 .card-by-item{
     
     display: inline-grid;
-    grid-template-areas: 'date expense expense expense amount btn';
+    grid-template-areas: 'date expense expense cat amount btn';
     grid-gap: 10px;
     padding: 10px;
     width: 100%;
@@ -94,6 +94,11 @@ li{
 .card-expense{
     grid-area: expense;
     width: 200px;
+    text-align: left;
+}
+.card-cat{
+    grid-area: cat;
+    width: 100px;
     text-align: left;
 }
 

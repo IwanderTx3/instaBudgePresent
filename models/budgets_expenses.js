@@ -28,6 +28,17 @@ var Expense = sequelize.define('expenses', {
         unique: false,
         allowNull: false
     },
+    category: {
+        type: Sequelize.STRING,
+        unique: false,
+        allowNull: true
+    },
+    islogged:{
+        type: Sequelize.BOOLEAN,
+        unique: false,
+        allowNull: true
+    },
+
 });
 
 User.hasOne(Expense, { foreignKey: 'userid' })
