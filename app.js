@@ -167,7 +167,7 @@ function fetchQuickExpenses(usernum, callback) {
 
     // let usernum = req.session.user.id
 
-    db.any('SELECT title, amount FROM expenses WHERE userid = $1', [usernum])
+    db.any('SELECT title, amount, id FROM expenses WHERE userid = $1', [usernum])
         .then(function (data) {
 
                 callback(data);
@@ -183,6 +183,7 @@ app.get('/quickexpense', (req, res) => {
                 fetchQuickExpenses(usernum, (data) => {
                     res.render('quickexpense', {
                         itemList: data
+                        
                     })
 
                 })
@@ -194,16 +195,16 @@ app.get('/quickexpense', (req, res) => {
 });
 
 // route to handle deleteQuickExpense request
-app.get('/deleteQuickExpense/', (req, res) => {
+app.post('/deleteQuickExpense/:id', (req, res) => {
     console.log("Delete expense request received")
-    let usernum = req.session.user.id
+    let expenseid = req.params.id
+   
     if (req.session.user && req.cookies.user_sid) {
 
         Expense.destroy({
-            where: {
-                id: id
-
-            }
+            where: { id: expenseid }
+        }).then(function(){
+            res.redirect('/quickexpense');
         })
 
     }
@@ -212,8 +213,6 @@ app.get('/deleteQuickExpense/', (req, res) => {
     }
 
 });
-
-
 
 
 // route for Budget tracking page

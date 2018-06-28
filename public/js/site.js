@@ -3,19 +3,19 @@
 $(document).ready(function(){
    
 
-    // delete expense jQuery and Ajax
+    // delete item jQuery and Ajax
     $('.delete-expense').on('click', function(){
         let id = $(this).data('id');
+        console.log(id)
         let url = '/deleteQuickExpense/'+id;
         if(confirm('Delete Expense?')){
-             console.log('woo-hoo')
             $.ajax({
                 url: url,
-                type: 'GET',
+                type: 'POST',
                 
                 success: function(result){
                     console.log('Deleting item...');
-                    window.location.href='/';
+                    window.location.href='/quickexpense';
                 },
                 error: function(err){
                     console.log(err);
@@ -29,6 +29,5 @@ $(document).ready(function(){
         $('#edit-form-itemname').val($(this).data('name'));
         $('#edit-form-qty').val($(this).data('qty'));
         $('#edit-form-id').val($(this).data('id'));
-    
     })
 })
