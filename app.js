@@ -8,12 +8,13 @@ var session = require('express-session');
 var morgan = require('morgan');
 var User = require('./models/user');
 var Expense = require('./models/budgets_expenses');
-var Budget = require('./models/budgets_bycat');
+var Budget = require('./models/Budget');
 var path = require('path');
 
 let pgp = require('pg-promise')()
 let connectionString = 'postgres://instabudget:digitalcrafts@instabudget.cuzupkl5r98f.us-east-2.rds.amazonaws.com:5432/InstaBudget'
 let db = pgp(connectionString)
+var status = ''
 
 
 //let connectionString = 'postgres://localhost:5432/instabudget'
@@ -181,30 +182,49 @@ app.get('/quickexpense', (req, res) =>
 // route for Budget tracking page
 app.get('/tracking', (req, res) => {
     if (req.session.user && req.cookies.user_sid) {
-       console.log(req.session.user.id)
        let usernum = req.session.user.id
-       console.log(usernum)
-       
        Expense.findAll({where:{userid : usernum} }).then((allItems) => 
        {
-            Expense.sum('amount',{where:{userid : usernum} }).then((sum) =>
+            Expense.sum('amount',{where:{userid : usernum} }).then((sumA) =>
             {
                 Budget.sum('budget',{where:{userid : usernum}}).then((full) =>
                 {
-                    let percent = sum/full; 
-                            console.log(sum);
-                            console.log(full);
-                            console.log(percent);
-                        res.render('tracking',{sum:sum,full:full,percent:percent,expenses: allItems});
+                    let n = ((sumA/full)*100); 
+                    let percent = n.toFixed(2);
+                    if (percent > 90 ){
+                        status = 'red'
+                    } else {
+                        status = 'yellow'
+                    };
+                        fetchData(usernum) 
+                        res.render('tracking',{status: status, sum:sumA,full:full,percent:percent,expenses: allItems});
+                })
+            })
         })
-    })
-})
 
 
     } else {
         res.redirect('/login');
     }
 });
+
+function buildStatusBar(usernum){
+    Expense.sum('amount',{where:{userid : usernum} }).then((sumA) =>
+    {
+        Budget.sum('budget',{where:{userid : usernum}}).then((full) =>
+        {
+            let n = ((sumA/full)*100); 
+            let percent = n.toFixed(2);
+            if (percent > 90 ){
+                status = 'red'
+            } else {
+                status = 'yellow'
+            };
+            return(sumA,full,percent);
+        })
+    })
+
+}
 
 // route for user logout
 app.get('/logout', (req, res) => {
@@ -225,3 +245,20 @@ app.use(function (req, res, next) {
 
 // start the express server
 app.listen(app.get('port'), () => console.log(`App started on port ${app.get('port')}`));
+
+
+
+Expense.findAll(
+    {
+        where:{userid : usernum},
+        include:[{
+            model:Budget,
+            where:{id: sequelize.col('expense.category')}
+        }] 
+    }
+
+
+).then((results) =>{
+    console.log(results[0])
+})
+
