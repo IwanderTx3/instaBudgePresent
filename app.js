@@ -183,20 +183,16 @@ app.get('/tracking', (req, res) => {
        console.log(req.session.user.id)
        let usernum = req.session.user.id
        console.log(usernum)
-       Expense.sum('amount',{where:{userid : usernum} }).then(sum => {
-        console.log(sum)
-       })
-
+       
        Expense.findAll({where:{userid : usernum} }).then(allItems => {
-                      res.render('tracking',{expenses: allItems});
+        Expense.sum('amount',{where:{userid : usernum} }).then(sum)
+                       res.render('tracking',{sum:sum,expenses: allItems});
         })
         
     } else {
         res.redirect('/login');
     }
 });
-
-
 
 // route for user logout
 app.get('/logout', (req, res) => {
