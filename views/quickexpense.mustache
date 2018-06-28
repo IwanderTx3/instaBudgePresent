@@ -68,18 +68,19 @@
                         <div class="card-date"> date</div>
                         <div class="card-expense"> {{title}}</div>
                         <div class="card-amount">{{amount}}</div>
-                          <div class="card-btn"><button type="button" class="btn btn-warning log-expense"
+                          <div class="card-btn"><button type="button" class="btn btn-success log-expense"
                                 data-toggle="modal"
-                                data-target="#editFormModal"
+                                data-target="#logExpenseFormModal"
                                 data-id="{{id}}"
-                                data-name="{{itemName}}"
-                                data-qty="{{qty}}"
+                                data-title="{{title}}"
+                                data-amount="{{amount}}"
+                                data-category="{{category}}"
                         
-                        >Log Item</button>
+                        >Log expense</button>
                         <button data-id="{{id}}" class="btn btn-danger delete-expense" ><i class="fas fa-trash-alt"></i></button></div>
                 </div></li>
             </ul>
-{{/itemList}}
+  {{/itemList}}
 
 
 
@@ -91,13 +92,14 @@
 
 
  <!-- Log Expense Modal -->
+  <form method="POST" action="/log_expense" >
 
     <div class="modal fade" id="logExpenseFormModal" tabindex="-1" role="dialog" aria-labelledby="logExpenseFormModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
               <form method="POST" action="/edit">
 
-              <input type="hidden" id="edit-form-id" name="id" />
+              <input type="hidden" id="expenseid" name="expenseid" />
                 <div class="modal-header">
                     <h5 class="modal-title" id="logExpenseModalLabel">Log Expense</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -106,33 +108,59 @@
                 </div>
                 <div class="modal-body">
                  <div class="form-group">
-                    <input placeholder="Expense" type="text" class="form-control" name="quickExpense" id="quickExpenseLogForm"/>
+                    <input placeholder="Expense" type="text" class="form-control" name="quickExpenseName" id="quickExpenseTitle"/>
                   </div>
                   <div class="form-group">
-                    <input placeholder="Amount Spent" type="text" class="form-control" name="qty" id="quickExpenseLogFormQty" />
+                    <input placeholder="Amount Spent" type="text" class="form-control" name="quickExpenseAmount" id="quickExpenseAmount" />
+                
                   </div>
                     <div class="form-group">
+            
+            {{#budgetCategories}}        
     <select class="custom-select">
-      <option selected="">Choose Category</option>
-      <option value="1">Games</option>
-      <option value="2">Coffee</option>
-      <option value="3">Tolls</option>
+   
+      <option selected="">Choose Budget</option>
+      <option name="{{name}}" value="{{id}}">{{name}}</option>
     </select>
+     {{/budgetCategories}}
+     
   </div>
 
+<div class="modal-body">
+<p>
+  <a class="btn btn-outline-info" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    Add budget
+  </a>
+</p>
+<div class="collapse" id="collapseExample">
 
+<div class="form-group">
+
+    <input placeholder="Budget name..." type="text" class="form-control" name="budgetName" id="quickExpenseAmount" />
+</div>
+<div class="form-group">
+    <input placeholder="Budget amount..." type="text" class="form-control" name="budgetAmount" id="quickExpenseAmount" />
+</div>
+                <div class="form-group">
+                  <input type="submit" class="btn btn-outline-success" value="Save" />
+                  </div>
+</div>
+</form>
+
+ 
 
 
                 </div>
+              
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <input type="submit" class="btn btn-primary" value="Add" />
+                    <input type="submit" class="btn btn-success" value="Log expense" />
                 </div>
-              </form>
+              
             </div>
         </div>
     </div>
-   
+   </form>
 
 
 
