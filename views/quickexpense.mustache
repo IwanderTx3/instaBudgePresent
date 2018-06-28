@@ -64,10 +64,11 @@
                 <li>
                 <div class="card border-primary mb-3" style="max-width: 90%;">
                     <div class="card-by-item">
+        
                         <div class="card-date"> date</div>
                         <div class="card-expense"> {{title}}</div>
                         <div class="card-amount">{{amount}}</div>
-                          <div class="card-btn"><button type="button" class="btn btn-warning" edit-item
+                          <div class="card-btn"><button type="button" class="btn btn-warning log-expense"
                                 data-toggle="modal"
                                 data-target="#editFormModal"
                                 data-id="{{itemid}}"
@@ -75,7 +76,7 @@
                                 data-qty="{{qty}}"
                         
                         >Log Item</button>
-                        <button class="danger"><i class="fas fa-trash-alt"></i></button></div>
+                        <button class="btn btn-danger delete-expense"><i class="fas fa-trash-alt"></i></button></div>
                 </div></li>
             </ul>
 {{/itemList}}
@@ -87,32 +88,28 @@
 
  
 
-  
-</div>
-    <nav class="navbar navbar-dark bg-primary force-to-bottom">
-    <p class="footer-text justify-content-end">© 2018 InstaBudget, Inc. All rights reserved.</p>
-</nav>
+
 
  <!-- Log Expense Modal -->
 
-    <div class="modal fade" id="editFormModal" tabindex="-1" role="dialog" aria-labelledby="editFormModalLabel" aria-hidden="true">
+    <div class="modal fade" id="logExpenseFormModal" tabindex="-1" role="dialog" aria-labelledby="logExpenseFormModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
               <form method="POST" action="/edit">
 
               <input type="hidden" id="edit-form-id" name="id" />
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Log Expense</h5>
+                    <h5 class="modal-title" id="logExpenseModalLabel">Log Expense</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                  <div class="form-group">
-                    <input placeholder="Expense" type="text" class="form-control" name="itemName" id="edit-form-itemname"/>
+                    <input placeholder="Expense" type="text" class="form-control" name="quickExpense" id="quickExpenseLogForm"/>
                   </div>
                   <div class="form-group">
-                    <input placeholder="Amount Spent" type="text" class="form-control" name="qty" id="edit-form-qty" />
+                    <input placeholder="Amount Spent" type="text" class="form-control" name="qty" id="quickExpenseLogFormQty" />
                   </div>
                     <div class="form-group">
     <select class="custom-select">
@@ -122,6 +119,10 @@
       <option value="3">Tolls</option>
     </select>
   </div>
+
+
+
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -135,17 +136,13 @@
 
 
 
-
-
-
-
-
-
-
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+   
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+     <script src="js/site.js"></script>
+    
   </body>
 </html>

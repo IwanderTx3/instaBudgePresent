@@ -147,31 +147,69 @@ app.post('/add_quick_expense', (req, res) => {
                 title: req.body.title,
                 amount: req.body.amount,
                 userid: req.session.user.id
+            }).then(function(){
+                res.redirect('/quickexpense');
             })
             .catch(error => {
                 console.log(error)
                 res.redirect('/signup');
             });
-        res.redirect('/quickexpense');
+       // res.redirect('/quickexpense');
     } else {
         res.redirect('/quickexpense');
     }
 });
-// route for Quick expense page
 
-app.get('/quickexpense', (req, res) => 
-    {
-        if (req.session.user && req.cookies.user_sid) 
-        {
-            let usernum = req.session.user.id
-            console.log(usernum)
-            db.any('SELECT title, amount FROM expenses WHERE userid = $1',[usernum]) .then(function(data)
-            {
-                res.render('quickexpense',{itemList : data})
+
+
+// fectchQuickExpenses Function with callback as argument
+function fetchQuickExpenses(usernum, callback) {
+
+    // let usernum = req.session.user.id
+
+    db.any('SELECT title, amount FROM expenses WHERE userid = $1', [usernum])
+        .then(function (data) {
+
+                callback(data);
             });
-        } else {
-            res.redirect('/login');
-        }
+        };
+
+// route for Quick expense page
+app.get('/quickexpense', (req, res) => {
+
+    let usernum = req.session.user.id
+            if (req.session.user && req.cookies.user_sid) {
+
+                fetchQuickExpenses(usernum, (data) => {
+                    res.render('quickexpense', {
+                        itemList: data
+                    })
+
+                })
+    }
+    else {
+        res.redirect('/login');
+    }
+
+});
+
+// route to handle deleteQuickExpense request
+app.get('/deleteQuickExpense/', (req, res) => {
+    console.log("Delete expense request received")
+    let usernum = req.session.user.id
+    if (req.session.user && req.cookies.user_sid) {
+
+        Expense.destroy({
+            where: {
+                id: id
+
+            }
+        })
+
+    }
+    else {
+        res.redirect('/login');
+    }
 
 });
 
@@ -181,24 +219,38 @@ app.get('/quickexpense', (req, res) =>
 // route for Budget tracking page
 app.get('/tracking', (req, res) => {
     if (req.session.user && req.cookies.user_sid) {
-       console.log(req.session.user.id)
-       let usernum = req.session.user.id
-       console.log(usernum)
-       
-       Expense.findAll({where:{userid : usernum} }).then((allItems) => 
-       {
-            Expense.sum('amount',{where:{userid : usernum} }).then((sum) =>
-            {
-                Budget.sum('budget',{where:{userid : usernum}}).then((full) =>
-                {
-                    let percent = sum/full; 
-                            console.log(sum);
-                            console.log(full);
-                            console.log(percent);
-                        res.render('tracking',{sum:sum,full:full,percent:percent,expenses: allItems});
+        console.log(req.session.user.id)
+        let usernum = req.session.user.id
+        console.log(usernum)
+
+        Expense.findAll({
+            where: {
+                userid: usernum
+            }
+        }).then((allItems) => {
+            Expense.sum('amount', {
+                where: {
+                    userid: usernum
+                }
+            }).then((sum) => {
+                Budget.sum('budget', {
+                    where: {
+                        userid: usernum
+                    }
+                }).then((full) => {
+                    let percent = sum / full;
+                    console.log(sum);
+                    console.log(full);
+                    console.log(percent);
+                    res.render('tracking', {
+                        sum: sum,
+                        full: full,
+                        percent: percent,
+                        expenses: allItems
+                    });
+                })
+            })
         })
-    })
-})
 
 
     } else {
