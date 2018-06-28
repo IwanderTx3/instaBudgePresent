@@ -137,10 +137,7 @@ app.get('/dashboard', (req, res) => {
     }
 });
 
-
-
 // route to add quick expense
-
 app.post('/add_quick_expense', (req, res) => {
     console.log(req.body)
     if (req.session.user && req.cookies.user_sid) {
@@ -148,32 +145,103 @@ app.post('/add_quick_expense', (req, res) => {
                 title: req.body.title,
                 amount: req.body.amount,
                 userid: req.session.user.id
+            }).then(function () {
+                res.redirect('/quickexpense');
             })
             .catch(error => {
                 console.log(error)
                 res.redirect('/signup');
             });
-        res.redirect('/quickexpense');
+        // res.redirect('/quickexpense');
     } else {
         res.redirect('/quickexpense');
     }
 });
+
+
+
+// fectchQuickExpenses Function with callback as argument
+function fetchQuickExpenses(usernum, callback) {
+
+    Expense.findAll({ where: {
+        userid: usernum
+    }}).then(function (expenses) {
+
+            callback(expenses);
+        });
+};
+
+// fetchUserBudgetCategories
+function fetchUserBudgetCategories(usernum, callback) {
+
+    Budget.findAll({
+        attributes: ['name', 'id'],
+        where: {
+        userid: usernum
+    }}).then((budgetCategories)=>{
+        callback(budgetCategories)
+    })
+
+}
 // route for Quick expense page
+app.get('/quickexpense', (req, res) => {
 
-app.get('/quickexpense', (req, res) => 
-    {
-        if (req.session.user && req.cookies.user_sid) 
-        {
-            let usernum = req.session.user.id
-            console.log(usernum)
-            db.any('SELECT title, amount FROM expenses WHERE userid = $1',[usernum]) .then(function(data)
-            {
-                res.render('quickexpense',{itemList : data})
-            });
-        } else {
-            res.redirect('/login');
-        }
+    let usernum = req.session.user.id
+    if (req.session.user && req.cookies.user_sid) {
 
+        fetchQuickExpenses(usernum, (expenses) => {
+
+            fetchUserBudgetCategories(usernum, (budgetCategories) =>{
+                console.log(budgetCategories[0].name)
+                res.render('quickexpense', {
+                    itemList: expenses,
+                    budgetCategories: budgetCategories
+                })
+            })
+        })
+    } else {
+        res.redirect('/login');
+    }
+});
+
+// route to handle deleteQuickExpense request
+app.post('/deleteQuickExpense/:id', (req, res) => {
+    console.log("Delete expense request received")
+    let expenseid = req.params.id
+
+    if (req.session.user && req.cookies.user_sid) {
+
+        Expense.destroy({
+            where: {
+                id: expenseid
+            }
+        }).then(function () {
+            res.redirect('/quickexpense');
+        })
+
+    } else {
+        res.redirect('/login');
+    }
+});
+
+// route to Log Expense
+app.post('/log_expense', (req, res) =>{
+    let expenseid = req.body
+    console.log(req.body)
+    if (req.session.user && req.cookies.user_sid) {
+
+        Expense.update({
+            islogged: 'TRUE',
+            where: {
+                id: expenseid
+            }
+        }).then(function () {
+            res.redirect('/quickexpense');
+        })
+
+    } else {
+        res.redirect('/login');
+    }
 });
 
 
@@ -182,6 +250,7 @@ app.get('/quickexpense', (req, res) =>
 // route for Budget tracking page
 app.get('/tracking', (req, res) => {
     if (req.session.user && req.cookies.user_sid) {
+
        let usernum = req.session.user.id
        Expense.findAll({where:{userid : usernum} }).then((allItems) => 
        {
@@ -201,6 +270,7 @@ app.get('/tracking', (req, res) => {
                 })
             })
         })
+
 
 
     } else {
