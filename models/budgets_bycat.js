@@ -9,13 +9,17 @@ const sequelize = new Sequelize('postgres://instabudget:digitalcrafts@instabudge
 
 
 // setup Expense model and its fields
-var Expense = sequelize.define('expenses', {
-    title: {
+var Budget = sequelize.define('budgets', {
+    name: {
         type: Sequelize.STRING,
         unique: false,
         allowNull: false
     },
-    amount: {
+    budget: {
+        type: Sequelize.DECIMAL(10,2),
+        allowNull: false
+    },
+    tally: {
         type: Sequelize.DECIMAL(10,2),
         allowNull: false
     },
@@ -28,27 +32,14 @@ var Expense = sequelize.define('expenses', {
         unique: false,
         allowNull: false
     },
-    category: {
-        type: Sequelize.STRING,
-        unique: false,
-        allowNull: true
-    },
-    islogged:{
-        type: Sequelize.BOOLEAN,
-        unique: false,
-        allowNull: true
-    },
 
 });
-
-User.hasOne(Expense, { foreignKey: 'userid' })
-// MainDashboard.belongsTo(MainClient, { foreignKey: 'clientId' })
 
 
 // create all the defined tables in the specified database
 sequelize.sync()
-    .then(() => console.log('Expenses table has been successfully created, if one doesn\'t exist'))
+    .then(() => console.log('Budgets table has been successfully created, if one doesn\'t exist'))
     .catch(error => console.log('This error occured', error));
 
 // export Export model for use in other files
-module.exports = Expense;
+module.exports = Budget;
