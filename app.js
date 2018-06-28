@@ -8,6 +8,7 @@ var session = require('express-session');
 var morgan = require('morgan');
 var User = require('./models/user');
 var Expense = require('./models/budgets_expenses');
+var Budget = require('./models/budgets_bycat');
 var path = require('path');
 
 let pgp = require('pg-promise')()
@@ -184,11 +185,22 @@ app.get('/tracking', (req, res) => {
        let usernum = req.session.user.id
        console.log(usernum)
        
-       Expense.findAll({where:{userid : usernum} }).then(allItems => {
-        Expense.sum('amount',{where:{userid : usernum} }).then(sum)
-                       res.render('tracking',{sum:sum,expenses: allItems});
+       Expense.findAll({where:{userid : usernum} }).then((allItems) => 
+       {
+            Expense.sum('amount',{where:{userid : usernum} }).then((sum) =>
+            {
+                Budget.sum('budget',{where:{userid : usernum}}).then((full) =>
+                {
+                    let percent = sum/full; 
+                            console.log(sum);
+                            console.log(full);
+                            console.log(percent);
+                        res.render('tracking',{sum:sum,full:full,percent:percent,expenses: allItems});
         })
-        
+    })
+})
+
+
     } else {
         res.redirect('/login');
     }

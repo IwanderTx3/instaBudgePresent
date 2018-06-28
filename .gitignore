@@ -71,9 +71,13 @@ typings/
 
 # Serverless directories
 <<<<<<< HEAD
+<<<<<<< HEAD
 .serverless
 
 package-lock.json
+=======
+.serverless
+>>>>>>> 29563517e568419461c5d770265028e8ee897b80
 =======
 .serverless
 >>>>>>> 29563517e568419461c5d770265028e8ee897b80
