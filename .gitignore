@@ -70,4 +70,8 @@ typings/
 .vuepress/dist
 
 # Serverless directories
+
 .serverless
+
+package-lock.json
+
