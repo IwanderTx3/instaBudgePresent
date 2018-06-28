@@ -249,6 +249,7 @@ app.post('/log_expense', (req, res) =>{
 // route for Budget tracking page
 app.get('/tracking', (req, res) => {
     if (req.session.user && req.cookies.user_sid) {
+
         console.log(req.session.user.id)
         let usernum = req.session.user.id
         console.log(usernum)
@@ -281,6 +282,8 @@ app.get('/tracking', (req, res) => {
                 })
             })
         })
+
+ 
 
 
     } else {
