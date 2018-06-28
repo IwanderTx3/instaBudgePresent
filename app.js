@@ -14,6 +14,7 @@ let pgp = require('pg-promise')()
 let connectionString = 'postgres://instabudget:digitalcrafts@instabudget.cuzupkl5r98f.us-east-2.rds.amazonaws.com:5432/InstaBudget'
 let db = pgp(connectionString)
 
+
 //let connectionString = 'postgres://localhost:5432/instabudget'
 
 // invoke an instance of express application.
@@ -179,7 +180,15 @@ app.get('/quickexpense', (req, res) =>
 // route for Budget tracking page
 app.get('/tracking', (req, res) => {
     if (req.session.user && req.cookies.user_sid) {
-        res.render('tracking');
+       console.log(req.session.user.id)
+       let usernum = req.session.user.id
+       console.log(usernum)
+       
+       Expense.findAll({where:{userid : usernum} }).then(allItems => {
+        Expense.sum('amount',{where:{userid : usernum} }).then(sum)
+                       res.render('tracking',{sum:sum,expenses: allItems});
+        })
+        
     } else {
         res.redirect('/login');
     }
