@@ -1,3 +1,15 @@
+.loginbox{
+    display: flex;
+    align-content: center;
+    height: 300px;
+    margin: 5% 40% auto 40%;
+    border-style: ridge;
+    border-width: thick;
+}
+.loginbtn{
+    margin: 10px auto auto auto;
+}
+
 .footer-text{
     color:white;
     text-align: center;
@@ -13,6 +25,7 @@
 
 body{
     background: #E9EEEF;
+
 }
 .header{
     text-align: center;
@@ -27,9 +40,16 @@ body{
 .progress{
     border-style: groove;
     height: 50px;
-    color: black;
-   
+    color: black;   
+}
 
+.expenselist{
+    display: flex;
+    flex-direction: column;
+    border-style: groove;
+    padding-right: 20px;
+    overflow-y: scroll;
+    max-height: 500px;
 }
 
 .totalbudget{
@@ -58,7 +78,8 @@ li{
 }
 
 .catbtn{
-    margin: 25px 0px 25px 25px;
+    margin: 5px 0px 5px 25px;
+
 }
 .card-header{
     margin-left: 50px;
