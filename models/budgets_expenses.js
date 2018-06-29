@@ -36,7 +36,7 @@ var Expense = sequelize.define('expenses', {
     islogged:{
         type: Sequelize.BOOLEAN,
         unique: false,
-        allowNull: true
+        allowNull: false
     },
 
 });

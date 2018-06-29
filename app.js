@@ -232,77 +232,76 @@ app.post('/deleteQuickExpense/:id', (req, res) => {
     }
 });
 
-// route to Log Quick Expense
-app.post('/log_quick_expense', (req, res) =>{
-    let expenseid = req.body.expenseid
-    let budgetCategory = req.body.budgetCategory
-   
-    if (req.session.user && req.cookies.user_sid) {
-        
-        Expense.update({
-            islogged: 'TRUE',
-            category: budgetCategory},{
-            where: {
-                id: expenseid
-            }
-        }).then(function () {
-            res.redirect('/quickexpense');
-        })
 
-    } else {
-        res.redirect('/login');
-    }
-});
+// route to Log Expense from EVERYWHERE
 
-// route to Log Expense from Dashboard
 app.post('/log_expense', (req, res) =>{
-
-   
+    console.log(req.body)
     if (req.session.user && req.cookies.user_sid) {
-        if(req.body.budgetName == ''){
-        
-        Expense.create({
-            islogged: 'TRUE',
-            category: req.body.budgetCategory,
-            title: req.body.title,
-            amount: req.body.amount,
-            userid: req.session.user.id
-        }).then(function () {
-            res.redirect('/dashboard');
-        })
-        .catch(error => {
-            res.redirect('/dashboard');
-            
-        });
-    }
-    else {
-        Budget.create({
-            name: req.body.budgetName,
-            budget: req.body.budgetAmount,
-            userid: req.session.user.id,
-            
-        }).then(name => {
-            Expense.create({
-                islogged: 'TRUE',
-                category: name.dataValues.id,
-                title: req.body.title,
-                amount: req.body.amount,
+        // Log Expense from Dashboard
+        if (req.body.quickExpense == 'no'){
+            Budget.create({
+                name: req.body.budgetName,
+                budget: req.body.budgetAmount,
                 userid: req.session.user.id
-            })
-        })
-            
-            
-        .then(function (){
+                
+            }).then(name => {
+                Expense.create({
+                    islogged: 'TRUE',
+                    category: name.dataValues.id,
+                    title: req.body.title,
+                    amount: req.body.amount,
+                    userid: req.session.user.id
+                })
+            }).then(function () {
             res.redirect('/dashboard');
         }).catch(error => {
+            console.log(error)
             res.redirect('/dashboard');
-        })
-
+            });
     }
-} else {
-    res.redirect('/login');
-}      
-});
+    // Log Expense with User selecting Budget Category from dropdown menu
+    else if(req.body.quickExpense == 'yes' && req.body.budgetName == ''){
+        Expense.update({
+            islogged: 'TRUE',
+            category: req.body.budgetCategory},{
+            where: {
+                id: req.body.expenseid
+            }
+        }).then(()=>{
+            res.redirect('/quickexpense')
+        }).catch(error => {
+            console.log(error)
+            res.redirect('/quickexpense');
+        })
+    
+    }
+    else {
+        
+            Budget.create({
+                name: req.body.budgetName,
+                budget: req.body.budgetAmount,
+                userid: req.session.user.id
+        }).then(name => {
+            Expense.update({
+                islogged: 'TRUE',
+                category: name.dataValues.id},{
+                where: {
+                    id: req.body.expenseid
+                }
+            })
+        }).then(()=>{
+            res.redirect('/quickexpense')
+        }).catch(error => {
+            console.log(error)
+            res.redirect('/quickexpense');
+        })
+    
+    }
+   
+}
+else {res.redirect('/login');}   
+})
 
 
 
