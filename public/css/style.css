@@ -32,6 +32,12 @@ body{
 
 }
 
+.totalbudget{
+    margin: auto 5% auto auto;
+    text-align: right;
+    color: black;
+    font-size: 18px;
+}
 .bg-success {
     background-color: #18BC9C !important;
     color: black;

@@ -2,10 +2,9 @@ $(document).ready(function () {
 
     // delete item jQuery and Ajax
     $('.delete-expense').on('click', function () {
-        alert("It works")
         let id = $(this).data('id');
         console.log(id)
-        let url = '/deleteQuickExpense/' + id;
+        let url = '/deleteExpense/' + id;
         if (confirm('Delete Expense?')) {
             $.ajax({
                 url: url,
@@ -13,7 +12,7 @@ $(document).ready(function () {
 
                 success: function (result) {
                     console.log('Deleting item...');
-                    window.location.href = '/quickexpense';
+                    window.location.href = '/tracking';
                 },
                 error: function (err) {
                     console.log(err);

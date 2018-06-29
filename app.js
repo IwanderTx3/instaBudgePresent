@@ -269,64 +269,53 @@ app.get('/tracking', (req, res) => {
                 for(var j = 0 ; j < allItems.length;j++){
                     var theItem = allItems[j]
                     if (theItem.category != null){
-                        if (theItem.category === thebudget.id){
-                            thebudget['expenses'].push(theItem)
+                        if (theItem.category === thebudget.id){thebudget['expenses'].push(theItem)}}
+                    else{if (thebudget.id == 'Unassigned' ){
+                            thebudget['expenses'].push(theItem)}
                         }
-                    }
-                    else{
-                        if (thebudget.id == 'Unassigned' ){
-                            thebudget['expenses'].push(theItem)
-                        }
-
-                    }
-                    
                 }
                 budgetsWithExpenses.push(thebudget)
             }
-
-       
-            Expense.sum('amount',{where:{userid : usernum} }).then((sumA) =>
-            {
-                Budget.sum('budget',{where:{userid : usernum}}).then((full) =>
-                {
-                    let n = ((sumA/full)*100); 
-                    let percent = n.toFixed(2);
-                    if (percent > 90 ){
-                        status = 'red'
-                    } else {
-                        status = 'yellow'
-                    };
-                        
+            Expense.sum('amount',{where:{userid : usernum} }).then((sumA) =>{
+                Budget.sum('budget',{where:{userid : usernum}}).then((full) =>{
+                    let percent = 0
+                    if ( sumA > 1 ){
+                            let n = ((sumA/full)*100); 
+                            percent = n.toFixed(2);
+                            if (percent > 90 ){status = 'red'} 
+                            else {status = 'yellow'}} 
+                    else {
+                            percent = 0;
+                            sumA = 0;       
+                        }
                         res.render('tracking',{status: status, sum:sumA,full:full,percent:percent,expenses: allItems,categories: budgetsWithExpenses });
+                    })      
                 })
             })
         })
-    })
+    } else {res.redirect('/login');}
+});
 
+app.post('/deleteExpense/:id', (req, res) => {
+    console.log("Delete expense request received")
+    let expenseid = req.params.id
 
+    if (req.session.user && req.cookies.user_sid) {
+
+        Expense.destroy({
+            where: {
+                id: expenseid
+            }
+        }).then(function () {
+            res.redirect('/tracking');
+        })
 
     } else {
         res.redirect('/login');
     }
 });
 
-function buildStatusBar(usernum){
-    Expense.sum('amount',{where:{userid : usernum} }).then((sumA) =>
-    {
-        Budget.sum('budget',{where:{userid : usernum}}).then((full) =>
-        {
-            let n = ((sumA/full)*100); 
-            let percent = n.toFixed(2);
-            if (percent > 90 ){
-                status = 'red'
-            } else {
-                status = 'yellow'
-            };
-            return(sumA,full,percent);
-        })
-    })
 
-}
 
 // route for user logout
 app.get('/logout', (req, res) => {
