@@ -44,9 +44,10 @@
                     </div>
                 </div>
 <div class='expenselist'>
+
 {{#categories}}
-                <button class="catbtn" data-toggle="collapse" data-target="#{{name}}log">{{name}}<div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{catper}}%" >Total Spent ${{tally}} ({{catper}}%) OF ${{budget}}</div></button>
-                <div id="{{name}}log" class="collapse">
+                <button class="catbtn" data-toggle="collapse" data-target="#{{id}}log">{{name}}<div class="progress-bar progress-bar-striped bg-success catstat" role="progressbar" style="width: {{catper}}%;background-color:{{status}} !important" >Total Spent ${{tally}} ({{catper}}%) OF ${{budget}}</div></button>
+                <div id="{{id}}log" class="collapse">
 {{#expenses}}
                 <ul>
                 <li>

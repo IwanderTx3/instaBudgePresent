@@ -360,6 +360,7 @@ app.get('/tracking', (req, res) => {
                 thebudget["expenses"] = []
                 thebudget['tally'] = 0
                 thebudget['catper'] = 0
+                thebudget['status'] = 'green'
 
             
                 for(var j = 0 ; j < allItems.length;j++){
@@ -368,7 +369,8 @@ app.get('/tracking', (req, res) => {
                         if (theItem.category === thebudget.id){
                             thebudget['expenses'].push(theItem)
                             thebudget['tally']=parseFloat(thebudget['tally'])+parseFloat(theItem.amount)
-                            let catper = ((parseFloat(thebudget['tally'])/parseFloat(thebudget.budget))*100)
+                            let m = ((parseFloat(thebudget['tally'])/parseFloat(thebudget.budget))*100)
+                            catper = m.toFixed(2);
                             thebudget['catper']=catper
                         }
                     }

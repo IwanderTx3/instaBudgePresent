@@ -59,9 +59,14 @@ body{
     font-size: 18px;
 }
 .bg-success {
-    background-color: #18BC9C !important;
+    background-color: #18BC9C;
     color: black;
     font-size: 18px;
+}
+
+.catstat{
+    font-size: 12px;
+    text-align: left;
 }
 
 .collapse{
