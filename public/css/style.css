@@ -38,6 +38,11 @@ body{
     font-size: 18px;
 }
 
+.collapse{
+    display: flex;
+    flex-direction: column;
+}
+
 ul{
     list-style: none;
 }

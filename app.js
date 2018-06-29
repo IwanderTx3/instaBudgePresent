@@ -8,7 +8,7 @@ var session = require('express-session');
 var morgan = require('morgan');
 var User = require('./models/user');
 var Expense = require('./models/budgets_expenses');
-var Budget = require('./models/Budget');
+var Budget = require('./models/budgets_bycat');
 var path = require('path');
 
 let pgp = require('pg-promise')()
@@ -253,7 +253,31 @@ app.get('/tracking', (req, res) => {
 
        let usernum = req.session.user.id
        Expense.findAll({where:{userid : usernum} }).then((allItems) => 
-       {
+       {Budget.findAll(
+           {
+               where: {userid : usernum},
+               attributes: ['id', 'userid','name']
+            }
+        ).then((budgetsall) =>{
+        
+            var budgetsWithExpenses = []
+            for(var i =0;i<budgetsall.length;i++){
+
+                var thebudget = budgetsall[i]
+                thebudget["expenses"] = []
+                for(var j = 0 ; j < allItems.length;j++){
+                    var theItem = allItems[j]
+                    if (theItem.category != null){
+                        if (theItem.category == thebudget.id){
+                            thebudget['expenses'].push(theItem)
+                            
+                        }
+                    }
+                }
+                budgetsWithExpenses.push(thebudget)
+            }
+
+       
             Expense.sum('amount',{where:{userid : usernum} }).then((sumA) =>
             {
                 Budget.sum('budget',{where:{userid : usernum}}).then((full) =>
@@ -265,11 +289,12 @@ app.get('/tracking', (req, res) => {
                     } else {
                         status = 'yellow'
                     };
-                        fetchData(usernum) 
-                        res.render('tracking',{status: status, sum:sumA,full:full,percent:percent,expenses: allItems});
+                        
+                        res.render('tracking',{status: status, sum:sumA,full:full,percent:percent,expenses: allItems,categories: budgetsWithExpenses });
                 })
             })
         })
+    })
 
 
 
@@ -318,17 +343,4 @@ app.listen(app.get('port'), () => console.log(`App started on port ${app.get('po
 
 
 
-Expense.findAll(
-    {
-        where:{userid : usernum},
-        include:[{
-            model:Budget,
-            where:{id: sequelize.col('expense.category')}
-        }] 
-    }
-
-
-).then((results) =>{
-    console.log(results[0])
-})
 
