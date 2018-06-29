@@ -163,7 +163,8 @@ app.post('/add_quick_expense', (req, res) => {
 function fetchQuickExpenses(usernum, callback) {
 
     Expense.findAll({ where: {
-        userid: usernum
+        userid: usernum,
+        islogged: 'FALSE'
     }}).then(function (expenses) {
 
             callback(expenses);
@@ -225,12 +226,12 @@ app.post('/deleteQuickExpense/:id', (req, res) => {
 
 // route to Log Expense
 app.post('/log_expense', (req, res) =>{
-    let expenseid = req.body
-    console.log(req.body)
+    let expenseid = req.body.expenseid
+    console.log(req.body.expenseid)
     if (req.session.user && req.cookies.user_sid) {
 
         Expense.update({
-            islogged: 'TRUE',
+            islogged: 'TRUE'},{
             where: {
                 id: expenseid
             }
