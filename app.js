@@ -279,22 +279,6 @@ app.get('/tracking', (req, res) => {
             }
 
        
-<<<<<<< HEAD
-       Expense.findAll({where:{userid : usernum} }).then((allItems) => 
-       {
-            Expense.sum('amount',{where:{userid : usernum} }).then((sum) =>
-            {
-                Budget.sum('budget',{where:{userid : usernum}}).then((full) =>
-                {
-                    let percent = sum/full; 
-                            console.log(sum);
-                            console.log(full);
-                            console.log(percent);
-                        res.render('tracking',{sum:sum,full:full,percent:percent,expenses: allItems});
-        })
-    })
-})
-=======
             Expense.sum('amount',{where:{userid : usernum} }).then((sumA) =>
             {
                 Budget.sum('budget',{where:{userid : usernum}}).then((full) =>
@@ -313,7 +297,6 @@ app.get('/tracking', (req, res) => {
         })
     })
 
->>>>>>> f6559f629a35acd3054b67009181fe1be65bd610
 
 
     } else {
