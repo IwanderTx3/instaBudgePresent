@@ -75,7 +75,6 @@
                                 data-title="{{title}}"
                                 data-amount="{{amount}}"
                                 data-category="{{category}}"
-                        
                         >Log expense</button>
                         <button data-id="{{id}}" class="btn btn-danger delete-expense" ><i class="fas fa-trash-alt"></i></button></div>
                 </div></li>
@@ -92,7 +91,8 @@
 
 
  <!-- Log Expense Modal -->
-  <form method="POST" action="/log_quick_expense" >
+  <form method="POST" action="/log_expense" >
+  <input name="quickExpense" type="hidden" value="yes">
 
     <div class="modal fade" id="logExpenseFormModal" tabindex="-1" role="dialog" aria-labelledby="logExpenseFormModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
@@ -108,17 +108,17 @@
                 </div>
                 <div class="modal-body">
                  <div class="form-group">
-                    <input placeholder="Expense" type="text" class="form-control" name="quickExpenseName" id="quickExpenseTitle"/>
+                    <input placeholder="Expense" type="text" class="form-control" name="title" id="quickExpenseTitle"/>
                   </div>
                   <div class="form-group">
-                    <input placeholder="Amount Spent" type="text" class="form-control" name="quickExpenseAmount" id="quickExpenseAmount" />
+                    <input placeholder="Amount Spent" type="text" class="form-control" name="amount" id="quickExpenseAmount" />
                 
                   </div>
                     <div class="form-group">
             
                    
     <select class="custom-select" id="budgetCategory" name="budgetCategory" >
-      <option selected="">Choose Budget</option>
+      <option selected="">Choose budget</option>
        {{#budgetCategories}}
       <option name="{{name}}" value="{{id}}">{{name}}</option>
         {{/budgetCategories}}
@@ -137,16 +137,15 @@
 
 <div class="form-group">
 
-    <input placeholder="Budget name..." type="text" class="form-control" name="budgetName" id="quickExpenseAmount" />
+    <input placeholder="Budget name..." type="text" class="form-control" name="budgetName"/>
 </div>
 <div class="form-group">
-    <input placeholder="Budget amount..." type="text" class="form-control" name="budgetAmount" id="quickExpenseAmount" />
+    <input placeholder="Budget amount..." type="text" class="form-control" name="budgetAmount"/>
 </div>
-                <div class="form-group">
-                  <input type="submit" class="btn btn-outline-success" value="Save" />
-                  </div>
 </div>
+
                 </div>
+
               
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
@@ -158,6 +157,7 @@
     </div>
    </form>
    <!-- End of Log Expense Modal -->
+
 
 
 
