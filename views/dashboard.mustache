@@ -10,8 +10,7 @@
     <link rel="stylesheet" href="css/style.css">
     <!-- added font awsome -->    
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">    
-
-    <title>Hello, world!</title>
+    <title>InstaBudget</title>
   </head>
   <body>
 
@@ -40,12 +39,14 @@
     </div>
     <div class="col-sm justify-content-center dashboard-buttons">
     
-       <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#formModal">
+       <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#setBudgetModal">
                 Set Budget
             </button>
     </div>
     <div class="col-sm justify-content-center dashboard-buttons">
-      <a class="btn btn-primary btn-lg" href="#" role="button">Log Expense</a>
+    <button type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#logExpenseModal">
+              Log Expense
+            </button>
     </div>
     <div class="col-sm justify-content-center dashboard-buttons">
        <a class="btn btn-primary btn-lg" href="/tracking" role="button">Budget Tracker</a>
@@ -59,7 +60,7 @@
 </nav>
 
  <!-- Set Budget Modal -->
-    <div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
+    <div class="modal fade" id="setBudgetModal" tabindex="-1" role="dialog" aria-labelledby="formModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
               <form method="POST" action="/set_budget">
@@ -88,6 +89,72 @@
     </div>
 
 
+ <!-- Log Expense Modal -->
+  <form method="POST" action="/log_expense" >
+
+    <div class="modal fade" id="logExpenseModal" tabindex="-1" role="dialog" aria-labelledby="logExpenseFormModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <form method="POST" action="/edit">
+
+              <input type="hidden" id="expenseid" name="expenseid" />
+                <div class="modal-header">
+                    <h5 class="modal-title" id="logExpenseModalLabel">Log Expense</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                 <div class="form-group">
+                    <input placeholder="Expense" type="text" class="form-control" name="title" id="title"/>
+                  </div>
+                  <div class="form-group">
+                    <input placeholder="Amount Spent" type="text" class="form-control" name="amount" id="amount" />
+                
+                  </div>
+                    <div class="form-group">
+            
+                   
+    <select class="custom-select" id="budgetCategory" name="budgetCategory" >
+      <option selected="">Choose budget</option>
+       {{#budgetCategories}}
+      <option name="{{name}}" value="{{id}}">{{name}}</option>
+        {{/budgetCategories}}
+    </select>
+   
+     
+  </div>
+
+<div class="modal-body">
+<p>
+  <a class="btn btn-outline-info" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+    Add budget
+  </a>
+</p>
+<div class="collapse" id="collapseExample">
+
+<div class="form-group">
+
+    <input placeholder="Budget name..." type="text" class="form-control" name="budgetName"/>
+</div>
+<div class="form-group">
+    <input placeholder="Budget amount..." type="text" class="form-control" name="budgetAmount"/>
+</div>
+</div>
+
+                </div>
+
+              
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <input type="submit" class="btn btn-success" value="Log expense" />
+                </div>
+              
+            </div>
+        </div>
+    </div>
+   </form>
+   <!-- End of Log Expense Modal -->
 
 
 
