@@ -3,7 +3,7 @@ $(document).ready(function () {
     // delete item jQuery and Ajax
     $('.delete-expense').on('click', function () {
         let id = $(this).data('id');
-        console.log(id)
+ //       console.log(id)
         let url = '/deleteExpense/' + id;
         if (confirm('Delete Expense?')) {
             $.ajax({

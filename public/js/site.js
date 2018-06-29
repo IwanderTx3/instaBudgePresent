@@ -4,7 +4,7 @@ $(document).ready(function () {
     $('.delete-expense').on('click', function () {
         alert("It works")
         let id = $(this).data('id');
-        console.log(id)
+//        console.log(id)
         let url = '/deleteQuickExpense/' + id;
         if (confirm('Delete Expense?')) {
             $.ajax({

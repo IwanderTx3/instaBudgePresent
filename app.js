@@ -97,7 +97,6 @@ app.route('/signup')
                 res.redirect('/dashboard');
             })
             .catch(error => {
-                console.log(error)
                 res.redirect('/signup');
             });
     });
@@ -146,7 +145,6 @@ app.get('/dashboard', (req, res) => {
 
 // route to add quick expense
 app.post('/add_quick_expense', (req, res) => {
-    console.log(req.body)
     if (req.session.user && req.cookies.user_sid) {
         Expense.create({
                 title: req.body.title,
@@ -157,7 +155,7 @@ app.post('/add_quick_expense', (req, res) => {
                 res.redirect('/quickexpense');
             })
             .catch(error => {
-                console.log(error)
+                
                 res.redirect('/quickexpense');
                 
             });
@@ -217,7 +215,6 @@ app.get('/quickexpense', (req, res) => {
 
 // route to handle deleteQuickExpense request
 app.post('/deleteQuickExpense/:id', (req, res) => {
-    console.log("Delete expense request received")
     let expenseid = req.params.id
 
     if (req.session.user && req.cookies.user_sid) {
@@ -239,7 +236,6 @@ app.post('/deleteQuickExpense/:id', (req, res) => {
 app.post('/log_quick_expense', (req, res) =>{
     let expenseid = req.body.expenseid
     let budgetCategory = req.body.budgetCategory
-    console.log(req.body.budgetCategory)
    
     if (req.session.user && req.cookies.user_sid) {
         
@@ -275,7 +271,6 @@ app.post('/log_expense', (req, res) =>{
             res.redirect('/dashboard');
         })
         .catch(error => {
-            console.log(error)
             res.redirect('/dashboard');
             
         });
@@ -287,7 +282,6 @@ app.post('/log_expense', (req, res) =>{
             userid: req.session.user.id,
             
         }).then(name => {
-            console.log(name.dataValues.id)
             Expense.create({
                 islogged: 'TRUE',
                 category: name.dataValues.id,
@@ -301,7 +295,6 @@ app.post('/log_expense', (req, res) =>{
         .then(function (){
             res.redirect('/dashboard');
         }).catch(error => {
-            console.log(error)
             res.redirect('/dashboard');
         })
 
@@ -337,7 +330,6 @@ app.post('/set_budget', (req, res) => {
         }).then(function (){
             res.redirect('/dashboard');
         }).catch(error => {
-            console.log(error)
             res.redirect('/dashboard');
         })
     } else {
@@ -362,31 +354,32 @@ app.get('/tracking', (req, res) => {
             }
         ).then((budgetsall) =>{
             budgetsall.push({name: 'Unassigned', id:'Unassigned', expenses:[]})
-            console.log('############################################################')
             var budgetsWithExpenses = []            
             for(var i =0;i<budgetsall.length;i++){
                 var thebudget = budgetsall[i]
                 thebudget["expenses"] = []
                 thebudget['tally'] = 0
-                console.log('########BOOM!!!!!!##########')
-                Expense.sum('amount',{where:{
-                                        userid : usernum,
-                                        category : toString(budgetsall[i].id)
-                                    } }).then((cattally)=>{
-                                        thebudget['tally'].push(cattally)})
+                thebudget['catper'] = 0
 
+            
                 for(var j = 0 ; j < allItems.length;j++){
                     var theItem = allItems[j]
                     if (theItem.category != null){
-                        if (parseInt(theItem.category) === parseInt(thebudget.id)){thebudget['expenses'].push(theItem)}}
-                    else{if (thebudget.id == 'Unassigned' ){
-                            thebudget['expenses'].push(theItem)}
+                        if (theItem.category === thebudget.id){
+                            thebudget['expenses'].push(theItem)
+                            thebudget['tally']=parseFloat(thebudget['tally'])+parseFloat(theItem.amount)
+                            let catper = ((parseFloat(thebudget['tally'])/parseFloat(thebudget.budget))*100)
+                            thebudget['catper']=catper
                         }
+                    }
+                    else{if (thebudget.id == 'Unassigned' ){
+                            thebudget['expenses'].push(theItem)
+                            thebudget['tally']=parseFloat(thebudget['tally'])+parseFloat(theItem.amount)
+                        }
+                        }
+                       
                 }
 
-                //expenses.sum.then(function(){})
-
-                console.log('########  POW  ##########')
                 budgetsWithExpenses.push(thebudget)
             }
             Expense.sum('amount',{where:{userid : usernum} }).then((sumA) =>{
@@ -410,7 +403,6 @@ app.get('/tracking', (req, res) => {
 });
 
 app.post('/deleteExpense/:id', (req, res) => {
-    console.log("Delete expense request received")
     let expenseid = req.params.id
 
     if (req.session.user && req.cookies.user_sid) {
