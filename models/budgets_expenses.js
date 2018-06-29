@@ -29,7 +29,7 @@ var Expense = sequelize.define('expenses', {
         allowNull: false
     },
     category: {
-        type: Sequelize.STRING,
+        type: Sequelize.INTEGER,
         unique: false,
         allowNull: true
     },

@@ -130,8 +130,15 @@ app.route('/login')
 
 // route for user's dashboard
 app.get('/dashboard', (req, res) => {
+    let usernum = req.session.user.id
     if (req.session.user && req.cookies.user_sid) {
-        res.render('dashboard');
+
+        fetchUserBudgetCategories(usernum, (budgetCategories) =>{
+                
+            res.render('dashboard', {
+                budgetCategories: budgetCategories
+            })
+        })
     } else {
         res.redirect('/login');
     }
@@ -228,8 +235,8 @@ app.post('/deleteQuickExpense/:id', (req, res) => {
     }
 });
 
-// route to Log Expense
-app.post('/log_expense', (req, res) =>{
+// route to Log Quick Expense
+app.post('/log_quick_expense', (req, res) =>{
     let expenseid = req.body.expenseid
     let budgetCategory = req.body.budgetCategory
     console.log(req.body.budgetCategory)
@@ -250,6 +257,73 @@ app.post('/log_expense', (req, res) =>{
         res.redirect('/login');
     }
 });
+
+// route to Log Expense from Dashboard
+app.post('/log_expense', (req, res) =>{
+
+   
+    if (req.session.user && req.cookies.user_sid) {
+        if(req.body.budgetName == ''){
+        
+        Expense.create({
+            islogged: 'TRUE',
+            category: req.body.budgetCategory,
+            title: req.body.title,
+            amount: req.body.amount,
+            userid: req.session.user.id
+        }).then(function () {
+            res.redirect('/dashboard');
+        })
+        .catch(error => {
+            console.log(error)
+            res.redirect('/dashboard');
+            
+        });
+    }
+    else {
+        Budget.create({
+            name: req.body.budgetName,
+            budget: req.body.budgetAmount,
+            userid: req.session.user.id,
+            
+        }).then(name => {
+            console.log(name.dataValues.id)
+            Expense.create({
+                islogged: 'TRUE',
+                category: name.dataValues.id,
+                title: req.body.title,
+                amount: req.body.amount,
+                userid: req.session.user.id
+            })
+        })
+            
+            
+        .then(function (){
+            res.redirect('/dashboard');
+        }).catch(error => {
+            console.log(error)
+            res.redirect('/dashboard');
+        })
+
+    }
+} else {
+    res.redirect('/login');
+}      
+});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // route to set budget
 app.post('/set_budget', (req, res) => {
