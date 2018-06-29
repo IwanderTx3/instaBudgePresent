@@ -14,6 +14,7 @@ var path = require('path');
 let pgp = require('pg-promise')()
 let connectionString = 'postgres://instabudget:digitalcrafts@instabudget.cuzupkl5r98f.us-east-2.rds.amazonaws.com:5432/InstaBudget'
 let db = pgp(connectionString)
+var status = ''
 
 
 //let connectionString = 'postgres://localhost:5432/instabudget'
@@ -136,10 +137,7 @@ app.get('/dashboard', (req, res) => {
     }
 });
 
-
-
 // route to add quick expense
-
 app.post('/add_quick_expense', (req, res) => {
     console.log(req.body)
     if (req.session.user && req.cookies.user_sid) {
@@ -147,32 +145,104 @@ app.post('/add_quick_expense', (req, res) => {
                 title: req.body.title,
                 amount: req.body.amount,
                 userid: req.session.user.id
+            }).then(function () {
+                res.redirect('/quickexpense');
             })
             .catch(error => {
                 console.log(error)
                 res.redirect('/signup');
             });
-        res.redirect('/quickexpense');
+        // res.redirect('/quickexpense');
     } else {
         res.redirect('/quickexpense');
     }
 });
+
+
+
+// fectchQuickExpenses Function with callback as argument
+function fetchQuickExpenses(usernum, callback) {
+
+    Expense.findAll({ where: {
+        userid: usernum,
+        islogged: 'FALSE'
+    }}).then(function (expenses) {
+
+            callback(expenses);
+        });
+};
+
+// fetchUserBudgetCategories
+function fetchUserBudgetCategories(usernum, callback) {
+
+    Budget.findAll({
+        attributes: ['name', 'id'],
+        where: {
+        userid: usernum
+    }}).then((budgetCategories)=>{
+        callback(budgetCategories)
+    })
+
+}
 // route for Quick expense page
+app.get('/quickexpense', (req, res) => {
 
-app.get('/quickexpense', (req, res) => 
-    {
-        if (req.session.user && req.cookies.user_sid) 
-        {
-            let usernum = req.session.user.id
-            console.log(usernum)
-            db.any('SELECT title, amount FROM expenses WHERE userid = $1',[usernum]) .then(function(data)
-            {
-                res.render('quickexpense',{itemList : data})
-            });
-        } else {
-            res.redirect('/login');
-        }
+    let usernum = req.session.user.id
+    if (req.session.user && req.cookies.user_sid) {
 
+        fetchQuickExpenses(usernum, (expenses) => {
+
+            fetchUserBudgetCategories(usernum, (budgetCategories) =>{
+                console.log(budgetCategories[0].name)
+                res.render('quickexpense', {
+                    itemList: expenses,
+                    budgetCategories: budgetCategories
+                })
+            })
+        })
+    } else {
+        res.redirect('/login');
+    }
+});
+
+// route to handle deleteQuickExpense request
+app.post('/deleteQuickExpense/:id', (req, res) => {
+    console.log("Delete expense request received")
+    let expenseid = req.params.id
+
+    if (req.session.user && req.cookies.user_sid) {
+
+        Expense.destroy({
+            where: {
+                id: expenseid
+            }
+        }).then(function () {
+            res.redirect('/quickexpense');
+        })
+
+    } else {
+        res.redirect('/login');
+    }
+});
+
+// route to Log Expense
+app.post('/log_expense', (req, res) =>{
+    let expenseid = req.body.expenseid
+    console.log(req.body.expenseid)
+    if (req.session.user && req.cookies.user_sid) {
+
+        Expense.update({
+            islogged: 'TRUE'},{
+            where: {
+                id: expenseid
+            }
+        }).then(function () {
+            res.redirect('/quickexpense');
+        })
+
+    } else {
+        res.redirect('/login');
+    }
 });
 
 
@@ -181,10 +251,35 @@ app.get('/quickexpense', (req, res) =>
 // route for Budget tracking page
 app.get('/tracking', (req, res) => {
     if (req.session.user && req.cookies.user_sid) {
-       console.log(req.session.user.id)
+
        let usernum = req.session.user.id
-       console.log(usernum)
+       Expense.findAll({where:{userid : usernum} }).then((allItems) => 
+       {Budget.findAll(
+           {
+               where: {userid : usernum},
+               attributes: ['id', 'userid','name']
+            }
+        ).then((budgetsall) =>{
+        
+            var budgetsWithExpenses = []
+            for(var i =0;i<budgetsall.length;i++){
+
+                var thebudget = budgetsall[i]
+                thebudget["expenses"] = []
+                for(var j = 0 ; j < allItems.length;j++){
+                    var theItem = allItems[j]
+                    if (theItem.category != null){
+                        if (theItem.category == thebudget.id){
+                            thebudget['expenses'].push(theItem)
+                            
+                        }
+                    }
+                }
+                budgetsWithExpenses.push(thebudget)
+            }
+
        
+<<<<<<< HEAD
        Expense.findAll({where:{userid : usernum} }).then((allItems) => 
        {
             Expense.sum('amount',{where:{userid : usernum} }).then((sum) =>
@@ -199,12 +294,50 @@ app.get('/tracking', (req, res) => {
         })
     })
 })
+=======
+            Expense.sum('amount',{where:{userid : usernum} }).then((sumA) =>
+            {
+                Budget.sum('budget',{where:{userid : usernum}}).then((full) =>
+                {
+                    let n = ((sumA/full)*100); 
+                    let percent = n.toFixed(2);
+                    if (percent > 90 ){
+                        status = 'red'
+                    } else {
+                        status = 'yellow'
+                    };
+                        
+                        res.render('tracking',{status: status, sum:sumA,full:full,percent:percent,expenses: allItems,categories: budgetsWithExpenses });
+                })
+            })
+        })
+    })
+
+>>>>>>> f6559f629a35acd3054b67009181fe1be65bd610
 
 
     } else {
         res.redirect('/login');
     }
 });
+
+function buildStatusBar(usernum){
+    Expense.sum('amount',{where:{userid : usernum} }).then((sumA) =>
+    {
+        Budget.sum('budget',{where:{userid : usernum}}).then((full) =>
+        {
+            let n = ((sumA/full)*100); 
+            let percent = n.toFixed(2);
+            if (percent > 90 ){
+                status = 'red'
+            } else {
+                status = 'yellow'
+            };
+            return(sumA,full,percent);
+        })
+    })
+
+}
 
 // route for user logout
 app.get('/logout', (req, res) => {
@@ -225,3 +358,7 @@ app.use(function (req, res, next) {
 
 // start the express server
 app.listen(app.get('port'), () => console.log(`App started on port ${app.get('port')}`));
+
+
+
+

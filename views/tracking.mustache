@@ -29,12 +29,15 @@
     <h3 class="header">Welcome to Budget Tracking page</h3>
     <hr class="my-4">
         <div class="container">
+<<<<<<< HEAD
             <div class="progress">
                 <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{percent}}"   style="height: 125px"  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">{{sum}}</div>
+=======
+            <div class="progress" style="background-color:{{status}}">
+                <div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{percent}}%"  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">${{sum}} ({{percent}}%)</div>
+>>>>>>> f6559f629a35acd3054b67009181fe1be65bd610
             </div>
             <div>
-                <button class="catbtn" data-toggle="collapse" data-target="#expenselog">Games</button>
-                <div id="expenselog" class="collapse">
                 <div class='card-matching'>
                     <div class="card-by-item-header">
                         <div class="card-date"> Date</div>
@@ -43,26 +46,27 @@
                         <div class="card-button">  </div>
                     </div>
                 </div>
-                <ul>
-{{#expenses}}
 
+{{#categories}}
+                <button class="catbtn" data-toggle="collapse" data-target="#{{name}}log">{{name}}</button>
+                <div id="{{name}}log" class="collapse">
+{{#expenses}}
+                <ul>
                 <li>
                 <div class="card border-primary mb-3" style="max-width: 90%;">
                     <div class="card-by-item">
                         <div class="card-date"> 6/25/18</div>
                         <div class="card-expense">  {{title}}</div>
-                        <div class="card-cat">  {{category}}</div>
                         <div class="card-amount">{{amount}}</div>
                         <div class="card-btn"><button class="danger"><i class="fas fa-trash-alt"></i></button></div>
                 </div>
-                </div>
+                
                 </li>
-
+                </ul>
 {{/expenses}}
-                <ul>
+                </div>
+{{/categories}}
   
-{{#func}}1{{/func}}
-{{#func}}2{{/func}}
 
 
 

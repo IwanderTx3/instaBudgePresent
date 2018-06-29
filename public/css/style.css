@@ -26,8 +26,21 @@ body{
 
 .progress{
     border-style: groove;
-    height: 25px;
-    background-color: yellow
+    height: 50px;
+    color: black;
+   
+
+}
+
+.bg-success {
+    background-color: #18BC9C !important;
+    color: black;
+    font-size: 18px;
+}
+
+.collapse{
+    display: flex;
+    flex-direction: column;
 }
 
 ul{
