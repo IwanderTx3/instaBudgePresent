@@ -362,19 +362,31 @@ app.get('/tracking', (req, res) => {
             }
         ).then((budgetsall) =>{
             budgetsall.push({name: 'Unassigned', id:'Unassigned', expenses:[]})
+            console.log('############################################################')
             var budgetsWithExpenses = []            
             for(var i =0;i<budgetsall.length;i++){
-
                 var thebudget = budgetsall[i]
                 thebudget["expenses"] = []
+                thebudget['tally'] = 0
+                console.log('########BOOM!!!!!!##########')
+                Expense.sum('amount',{where:{
+                                        userid : usernum,
+                                        category : toString(budgetsall[i].id)
+                                    } }).then((cattally)=>{
+                                        thebudget['tally'].push(cattally)})
+
                 for(var j = 0 ; j < allItems.length;j++){
                     var theItem = allItems[j]
                     if (theItem.category != null){
-                        if (theItem.category === thebudget.id){thebudget['expenses'].push(theItem)}}
+                        if (parseInt(theItem.category) === parseInt(thebudget.id)){thebudget['expenses'].push(theItem)}}
                     else{if (thebudget.id == 'Unassigned' ){
                             thebudget['expenses'].push(theItem)}
                         }
                 }
+
+                //expenses.sum.then(function(){})
+
+                console.log('########  POW  ##########')
                 budgetsWithExpenses.push(thebudget)
             }
             Expense.sum('amount',{where:{userid : usernum} }).then((sumA) =>{

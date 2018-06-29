@@ -13,6 +13,7 @@
     <title>Budget Tracking</title>
   </head>
 <body>
+
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <a class="navbar-brand" href="/dashboard">InstaBudget</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,9 +43,9 @@
                         <div class="card-button">  </div>
                     </div>
                 </div>
-
+<div class='expenselist'>
 {{#categories}}
-                <button class="catbtn" data-toggle="collapse" data-target="#{{name}}log">{{name}}</button>
+                <button class="catbtn" data-toggle="collapse" data-target="#{{name}}log">{{name}}<div class="progress-bar progress-bar-striped bg-success" role="progressbar" style="width: {{percent}}%" >Total Spent ${{tally}} ({{percent}}%) OF ${{budget}}</div></button>
                 <div id="{{name}}log" class="collapse">
 {{#expenses}}
                 <ul>
@@ -62,9 +63,12 @@
 {{/expenses}}
                 </div>
 {{/categories}}
-  
+</div>  
 
-
+</div>
+    <nav class="navbar navbar-dark bg-primary force-to-bottom">
+    <p class="footer-text justify-content-end">© 2018 InstaBudget, Inc. All rights reserved.</p>
+</nav>
 
 
 
