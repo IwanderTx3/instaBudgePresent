@@ -25,7 +25,7 @@ $(document).ready(function () {
         $('#quickExpenseTitle').val($(this).data('title'));
         $('#quickExpenseAmount').val($(this).data('amount'));
         $('#expenseid').val($(this).data('id'));
-    
+        $('#budgetCategory').val($(this).data('id'));
     
     })
 })

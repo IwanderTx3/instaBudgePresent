@@ -21,7 +21,7 @@ var Budget = sequelize.define('budgets', {
     },
     tally: {
         type: Sequelize.DECIMAL(10,2),
-        allowNull: false
+        allowNull: true
     },
    
     // Timestamps
@@ -34,6 +34,7 @@ var Budget = sequelize.define('budgets', {
     },
 
 });
+User.hasOne(Budget, { foreignKey: 'userid' })
 
 
 // create all the defined tables in the specified database

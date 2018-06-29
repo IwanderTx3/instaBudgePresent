@@ -116,13 +116,14 @@
                   </div>
                     <div class="form-group">
             
-            {{#budgetCategories}}        
-    <select class="custom-select">
-   
+                   
+    <select class="custom-select" id="budgetCategory" name="budgetCategory" >
       <option selected="">Choose Budget</option>
+       {{#budgetCategories}}
       <option name="{{name}}" value="{{id}}">{{name}}</option>
+        {{/budgetCategories}}
     </select>
-     {{/budgetCategories}}
+   
      
   </div>
 
