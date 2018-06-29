@@ -49,6 +49,7 @@ body{
     border-style: groove;
     padding-right: 20px;
     overflow-y: scroll;
+    overflow-x:  hidden;
     max-height: 500px;
 }
 
@@ -57,6 +58,8 @@ body{
     text-align: right;
     color: black;
     font-size: 18px;
+    white-space: nowrap;
+    overflow-x: visible;
 }
 .bg-success {
     background-color: #18BC9C;
@@ -84,8 +87,14 @@ li{
 
 .catbtn{
     margin: 5px 0px 5px 25px;
-
+    overflow: hidden;
 }
+
+.catbtn-header{
+    display: flex;
+    flex-direction: row;
+}
+
 .card-header{
     margin-left: 50px;
     padding: 0px 20px 0px 20px;

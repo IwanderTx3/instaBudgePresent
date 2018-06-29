@@ -337,15 +337,13 @@ app.post('/set_budget', (req, res) => {
     }
 })
 
-
-
-
-
 // route for Budget tracking page
 app.get('/tracking', (req, res) => {
     if (req.session.user && req.cookies.user_sid) {
 
        let usernum = req.session.user.id
+       // Trying to pass a mustache tag
+       let header = 'budget'
        Expense.findAll({where:{userid : usernum} }).then((allItems) => 
        {Budget.findAll(
            {
@@ -366,21 +364,35 @@ app.get('/tracking', (req, res) => {
                 for(var j = 0 ; j < allItems.length;j++){
                     var theItem = allItems[j]
                     if (theItem.category != null){
+                        
                         if (theItem.category === thebudget.id){
                             thebudget['expenses'].push(theItem)
                             thebudget['tally']=parseFloat(thebudget['tally'])+parseFloat(theItem.amount)
-                            let m = ((parseFloat(thebudget['tally'])/parseFloat(thebudget.budget))*100)
-                            catper = m.toFixed(2);
-                            thebudget['catper']=catper
+                            if (parseFloat(thebudget['tally']) > 0)
+                            {
+                                let m = ((parseFloat(thebudget['tally'])/parseFloat(thebudget.budget))*100)
+                                catper = m.toFixed(2);
+                                thebudget['catper']=catper
+                                if (catper > 80 && catper < 99){
+                                    thebudget['status'] = 'yellow'}
+                                if (catper > 99){
+                                    thebudget['status'] = 'red'
+                                    }
+                            }    
                         }
                     }
-                    else{if (thebudget.id == 'Unassigned' ){
+                    else{
+                        if (thebudget.id == 'Unassigned' ){
+ // Trying to pass a mustache tag
+                            //header = ' '
                             thebudget['expenses'].push(theItem)
                             thebudget['tally']=parseFloat(thebudget['tally'])+parseFloat(theItem.amount)
                         }
                         }
                        
-                }
+                } 
+               
+               
 
                 budgetsWithExpenses.push(thebudget)
             }
@@ -396,7 +408,7 @@ app.get('/tracking', (req, res) => {
                             percent = 0;
                             sumA = 0;       
                         }
-                        res.render('tracking',{status: status, sum:sumA,full:full,percent:percent,expenses: allItems,categories: budgetsWithExpenses });
+                        res.render('tracking',{ header:header, status: status, sum:sumA,full:full,percent:percent,expenses: allItems,categories: budgetsWithExpenses });
                     })      
                 })
             })
