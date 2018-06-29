@@ -257,11 +257,11 @@ app.get('/tracking', (req, res) => {
        {Budget.findAll(
            {
                where: {userid : usernum},
-               attributes: ['id', 'userid','name']
+               attributes: ['id', 'userid','name','budget','tally']
             }
         ).then((budgetsall) =>{
-        
-            var budgetsWithExpenses = []
+            budgetsall.push({name: 'Unassigned', id:'Unassigned', expenses:[]})
+            var budgetsWithExpenses = []            
             for(var i =0;i<budgetsall.length;i++){
 
                 var thebudget = budgetsall[i]
@@ -269,11 +269,17 @@ app.get('/tracking', (req, res) => {
                 for(var j = 0 ; j < allItems.length;j++){
                     var theItem = allItems[j]
                     if (theItem.category != null){
-                        if (theItem.category == thebudget.id){
+                        if (theItem.category === thebudget.id){
                             thebudget['expenses'].push(theItem)
-                            
                         }
                     }
+                    else{
+                        if (thebudget.id == 'Unassigned' ){
+                            thebudget['expenses'].push(theItem)
+                        }
+
+                    }
+                    
                 }
                 budgetsWithExpenses.push(thebudget)
             }
