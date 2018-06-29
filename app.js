@@ -144,21 +144,25 @@ app.post('/add_quick_expense', (req, res) => {
         Expense.create({
                 title: req.body.title,
                 amount: req.body.amount,
-                userid: req.session.user.id
+                userid: req.session.user.id,
+                islogged: 'FALSE'
             }).then(function () {
                 res.redirect('/quickexpense');
             })
             .catch(error => {
                 console.log(error)
-                res.redirect('/signup');
+                res.redirect('/quickexpense');
+                
             });
         // res.redirect('/quickexpense');
     } else {
-        res.redirect('/quickexpense');
+        res.redirect('/login');
+        
     }
 });
 
-
+// route to add quick expense
+app.post('/')
 
 // fectchQuickExpenses Function with callback as argument
 function fetchQuickExpenses(usernum, callback) {
@@ -182,7 +186,6 @@ function fetchUserBudgetCategories(usernum, callback) {
     }}).then((budgetCategories)=>{
         callback(budgetCategories)
     })
-
 }
 // route for Quick expense page
 app.get('/quickexpense', (req, res) => {
@@ -193,7 +196,7 @@ app.get('/quickexpense', (req, res) => {
         fetchQuickExpenses(usernum, (expenses) => {
 
             fetchUserBudgetCategories(usernum, (budgetCategories) =>{
-                console.log(budgetCategories[0].name)
+                
                 res.render('quickexpense', {
                     itemList: expenses,
                     budgetCategories: budgetCategories
@@ -228,11 +231,14 @@ app.post('/deleteQuickExpense/:id', (req, res) => {
 // route to Log Expense
 app.post('/log_expense', (req, res) =>{
     let expenseid = req.body.expenseid
-    console.log(req.body.expenseid)
+    let budgetCategory = req.body.budgetCategory
+    console.log(req.body.budgetCategory)
+   
     if (req.session.user && req.cookies.user_sid) {
-
+        
         Expense.update({
-            islogged: 'TRUE'},{
+            islogged: 'TRUE',
+            category: budgetCategory},{
             where: {
                 id: expenseid
             }
@@ -244,6 +250,27 @@ app.post('/log_expense', (req, res) =>{
         res.redirect('/login');
     }
 });
+
+// route to set budget
+app.post('/set_budget', (req, res) => {
+
+    if(req.session.user && req.cookies.user_sid){
+
+        Budget.create({
+            name: req.body.budgetName,
+            budget: req.body.budgetAmount,
+            userid: req.session.user.id
+        }).then(function (){
+            res.redirect('/dashboard');
+        }).catch(error => {
+            console.log(error)
+            res.redirect('/dashboard');
+        })
+    } else {
+        res.redirect('/login');
+    }
+})
+
 
 
 
