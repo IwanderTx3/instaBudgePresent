@@ -232,90 +232,77 @@ app.post('/deleteQuickExpense/:id', (req, res) => {
     }
 });
 
-
-// route to Log Expense from EVERYWHERE
-
-app.post('/log_expense', (req, res) =>{
-    console.log(req.body)
+// route to Log Quick Expense
+app.post('/log_quick_expense', (req, res) =>{
+    let expenseid = req.body.expenseid
+    let budgetCategory = req.body.budgetCategory
+   
     if (req.session.user && req.cookies.user_sid) {
-        // Log Expense from Dashboard
-        if (req.body.quickExpense == 'no'){
-            Budget.create({
-                name: req.body.budgetName,
-                budget: req.body.budgetAmount,
-                userid: req.session.user.id
-                
-            }).then(name => {
-                Expense.create({
-                    islogged: 'TRUE',
-                    category: name.dataValues.id,
-                    title: req.body.title,
-                    amount: req.body.amount,
-                    userid: req.session.user.id
-                })
-            }).then(function () {
-            res.redirect('/dashboard');
-        }).catch(error => {
-            console.log(error)
-            res.redirect('/dashboard');
-            });
-    }
-    // Log Expense with User selecting Budget Category from dropdown menu
-    else if(req.body.quickExpense == 'yes' && req.body.budgetName == ''){
+        
         Expense.update({
             islogged: 'TRUE',
-            category: req.body.budgetCategory},{
+            category: budgetCategory},{
             where: {
-                id: req.body.expenseid
+                id: expenseid
             }
-        }).then(()=>{
-            res.redirect('/quickexpense')
-        }).catch(error => {
-            console.log(error)
+        }).then(function () {
             res.redirect('/quickexpense');
         })
-    
+
+    } else {
+        res.redirect('/login');
+    }
+});
+
+// route to Log Expense from Dashboard
+app.post('/log_expense', (req, res) =>{
+
+   
+    if (req.session.user && req.cookies.user_sid) {
+        if(req.body.budgetName == ''){
+        
+        Expense.create({
+            islogged: 'TRUE',
+            category: req.body.budgetCategory,
+            title: req.body.title,
+            amount: req.body.amount,
+            userid: req.session.user.id
+        }).then(function () {
+            res.redirect('/dashboard');
+        })
+        .catch(error => {
+            res.redirect('/dashboard');
+            
+        });
     }
     else {
-        
-            Budget.create({
-                name: req.body.budgetName,
-                budget: req.body.budgetAmount,
-                userid: req.session.user.id
+        Budget.create({
+            name: req.body.budgetName,
+            budget: req.body.budgetAmount,
+            userid: req.session.user.id,
+            
         }).then(name => {
-            Expense.update({
+            Expense.create({
                 islogged: 'TRUE',
-                category: name.dataValues.id},{
-                where: {
-                    id: req.body.expenseid
-                }
+                category: name.dataValues.id,
+                title: req.body.title,
+                amount: req.body.amount,
+                userid: req.session.user.id
             })
-        }).then(()=>{
-            res.redirect('/quickexpense')
-        }).catch(error => {
-            console.log(error)
-            res.redirect('/quickexpense');
         })
-    
+            
+            
+        .then(function (){
+            res.redirect('/dashboard');
+        }).catch(error => {
+            res.redirect('/dashboard');
+        })
+
     }
-   
-}
-else {res.redirect('/login');}   
-})
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+} else {
+    res.redirect('/login');
+}      
+});
 
 // route to set budget
 app.post('/set_budget', (req, res) => {
@@ -357,7 +344,7 @@ app.get('/tracking', (req, res) => {
                 thebudget["expenses"] = []
                 thebudget['tally'] = 0
                 thebudget['catper'] = 0
-                thebudget['status'] = 'green'
+                thebudget['status'] = 'GreenYellow '
 
             
                 for(var j = 0 ; j < allItems.length;j++){

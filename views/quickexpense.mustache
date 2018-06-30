@@ -4,27 +4,26 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://bootswatch.com/4/flatly/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
     <!-- added font awsome -->    
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.1.0/css/all.css" integrity="sha384-lKuwvrZot6UHsBSfcMvOkWwlCMgc0TaWr+30HWe3a4ltaBwTZhyTEggF5tJv8tbt" crossorigin="anonymous">
-
     <title>Quick Expense</title>
   </head>
   <body>
-
-
     <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
   <a class="navbar-brand" href="/dashboard">InstaBudget</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor01" aria-controls="navbarColor01" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-
   <div class="collapse navbar-collapse" id="navbarColor01">
     <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+      <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+      <li class="nav-item"><a class="nav-link" href="/quickexpense">Quck Expense</a></li>
+      <li class="nav-item"><a class="nav-link" href="/tracking">Budget Tracking</a></li>
       <li class="nav-item">
+      
         <a class="nav-link" href="/logout">Log Out</a>
       </li>
     </ul>
@@ -32,9 +31,7 @@
 <div class="jumbotron">
   <h3 class="header">Welcome to the Quick Expense page</h3>
   <hr class="my-4">
-
 <div class="container">
-
   <form method="POST" action="/add_quick_expense" >
   <div class="form-group">
   <input type="text" class="form-control" placeholder="Expense" id="inputDefault" name='title'>
@@ -50,13 +47,11 @@
     <button type="submit" class="btn btn-primary btn-sm">Submit</button>
   </div>
   </form>
-
 <div class='card-matching'>
                     <div class="card-by-item-header">
                         <div class="card-date"> date </div>
                         <div class="card-expense"> Expense </div>
                         <div class="card-amount"> Amount</div>
-                           
                     </div>
                 </div>
   {{#itemList}}
@@ -64,7 +59,6 @@
                 <li>
                 <div class="card border-primary mb-3" style="max-width: 90%;">
                     <div class="card-by-item">
-        
                         <div class="card-date"> date</div>
                         <div class="card-expense"> {{title}}</div>
                         <div class="card-amount">{{amount}}</div>
@@ -80,16 +74,6 @@
                 </div></li>
             </ul>
   {{/itemList}}
-
-
-
-
-
-
- 
-
-
-
  <!-- Log Expense Modal -->
   <form method="POST" action="/log_expense" >
   <input name="quickExpense" type="hidden" value="yes">
@@ -115,18 +99,13 @@
                 
                   </div>
                     <div class="form-group">
-            
-                   
     <select class="custom-select" id="budgetCategory" name="budgetCategory" >
       <option selected="">Choose budget</option>
        {{#budgetCategories}}
       <option name="{{name}}" value="{{id}}">{{name}}</option>
         {{/budgetCategories}}
     </select>
-   
-     
   </div>
-
 <div class="modal-body">
 <p>
   <a class="btn btn-outline-info" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
@@ -134,9 +113,7 @@
   </a>
 </p>
 <div class="collapse" id="collapseExample">
-
 <div class="form-group">
-
     <input placeholder="Budget name..." type="text" class="form-control" name="budgetName"/>
 </div>
 <div class="form-group">
