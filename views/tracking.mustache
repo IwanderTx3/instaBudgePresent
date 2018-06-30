@@ -21,6 +21,9 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarColor01">
     <ul class="nav navbar-nav ml-auto w-100 justify-content-end">
+      <li class="nav-item"><a class="nav-link" href="/dashboard">Dashboard</a></li>
+      <li class="nav-item"><a class="nav-link" href="/quickexpense">Quck Expense</a></li>
+      <li class="nav-item"><a class="nav-link" href="/tracking">Budget Tracking</a></li>
       <li class="nav-item">
         <a class="nav-link" href="/logout">Log Out</a>
       </li>
@@ -46,7 +49,9 @@
 <div class='expenselist'>
 
 {{#categories}}
-                <button class="catbtn" data-toggle="collapse" data-target="#{{id}}log"><div class='catbtn-header'>{{name}} </div><div class="progress-bar progress-bar-striped bg-success catstat" role="progressbar" style="width: {{catper}}%;background-color:{{status}} !important" >Total Spent ${{tally}} ({{catper}}%)</div></button>
+                <button class="catbtn" data-toggle="collapse" data-target="#{{id}}log">
+                <div class='catbtn-header'>{{name}} <div class='moveitright'>${{budget}}</div></div>
+                <div class="progress-bar progress-bar-striped bg-success catstat" role="progressbar" style="width: {{catper}}%;background-color:{{status}} !important" >Total Spent ${{tally}} ({{catper}}%)</div></button>
                 <div id="{{id}}log" class="collapse">
 {{#expenses}}
                 <ul>
@@ -56,7 +61,8 @@
                         <div class="card-date"> 6/25/18</div>
                         <div class="card-expense">  {{title}}</div>
                         <div class="card-amount">{{amount}}</div>
-                        <button data-id="{{id}}" class="btn btn-danger delete-expense" ><i class="fas fa-trash-alt"></i></button></div>
+                        <div class='card-cat'>  </div>
+                        <div class=".card-btn"><button data-id="{{id}}" class="btn btn-danger delete-expense" ><i class="fas fa-trash-alt"></i></button></div>
                 </div>
                 
                 </li>
