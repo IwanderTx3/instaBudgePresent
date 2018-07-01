@@ -44,6 +44,7 @@
                         <div class="card-expense"> Expense</div>
                         <div class="card-amount">Amount</div>
                         <div class="card-button">  </div>
+                        <div class=".card-btn">Budget </div>
                     </div>
                 </div>
 <div class='expenselist'>
@@ -51,7 +52,7 @@
 {{#categories}}
                 <button class="catbtn" data-toggle="collapse" data-target="#{{id}}log">
                 <div class='catbtn-header'>{{name}} <div class='moveitright'>${{budget}}</div></div>
-                <div class="progress-bar progress-bar-striped bg-success catstat" role="progressbar" style="width: {{catper}}%;background-color:{{status}} !important" >Total Spent ${{tally}} ({{catper}}%)</div></button>
+                <div class="progress-bar progress-bar-striped bg-success catstat" role="progressbar" style="width: {{catper}}%;background-color:{{status}} !important" ><div style=" display :'{{header}}'">Total Spent ${{tally}} ({{catper}}%)</div></div></button>
                 <div id="{{id}}log" class="collapse">
 {{#expenses}}
                 <ul>
@@ -73,9 +74,11 @@
 </div>  
 
 </div>
+<div class='bottom'>
     <nav class="navbar navbar-dark bg-primary force-to-bottom">
     <p class="footer-text justify-content-end">© 2018 InstaBudget, Inc. All rights reserved.</p>
 </nav>
+</div>
 
 
 

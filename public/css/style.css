@@ -37,6 +37,14 @@ body{
     width: 100%;
   }
 
+.bottom{
+    display: flex;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    margin-top: 80px;
+}
+
 .progress{
     border-style: groove;
     height: 50px;
