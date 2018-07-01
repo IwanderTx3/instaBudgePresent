@@ -72,14 +72,14 @@ body{
 .bg-success {
     background-color: #18BC9C;
     color: black;
-    font-size: 18px;
+    font-size: 24px;
     border-style: groove;
     border-width: thick;
     
 }
 
 .catstat{
-    font-size: 12px;
+    font-size: 14px;
     text-align: left;
     color: black;      
 }
@@ -145,6 +145,10 @@ li{
     margin: auto 20px auto auto;
 
 }
+.keepstrait{
+    display: flex;
+    flex-direction: row;
+}
 
 .card-by-item{
     
@@ -161,23 +165,27 @@ li{
     grid-area: date;
     width: 75px;
     text-align: center;
+    margin: auto;
 }
 
 .card-expense{
     grid-area: expense;
     width: 200px;
     text-align: left;
+    margin: auto;
 }
 .card-cat{
     grid-area: cat;
     width: 100px;
     text-align: left;
+    margin: auto;
 }
 
 .card-amount{
     grid-area: amount;
     width: 100px;
     text-align: right;
+    margin: auto;
 }
 
 

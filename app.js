@@ -371,7 +371,7 @@ app.get('/tracking', (req, res) => {
                     else{
                         if (thebudget.id == 'Unassigned' ){
  // Trying to pass a mustache tag
-                            thebudget['header'] = 'hidden'
+                            thebudget['header'] = 'none'
                             thebudget['expenses'].push(theItem)
                             thebudget['tally']=parseFloat(thebudget['tally'])+parseFloat(theItem.amount)
                         }

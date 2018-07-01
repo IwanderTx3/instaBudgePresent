@@ -51,17 +51,17 @@
 
 {{#categories}}
                 <button class="catbtn" data-toggle="collapse" data-target="#{{id}}log">
-                <div class='catbtn-header'>{{name}} <div class='moveitright'>${{budget}}</div></div>
-                <div class="progress-bar progress-bar-striped bg-success catstat" role="progressbar" style="width: {{catper}}%;background-color:{{status}} !important" ><div style=" display :'{{header}}'">Total Spent ${{tally}} ({{catper}}%)</div></div></button>
+                <div class='catbtn-header'>{{name}} <div class='moveitright' style=" display :{{header}}" >${{budget}}</div></div>
+                <div class="progress-bar progress-bar-striped bg-success catstat" role="progressbar" style="width: {{catper}}%;background-color:{{status}} !important" ><div class='keepstrait'>Total Spent ${{tally}}   <div style=" display :{{header}}"> &nbsp ({{catper}}%)</div></div></div></button>
                 <div id="{{id}}log" class="collapse">
 {{#expenses}}
                 <ul>
                 <li>
                 <div class="card border-primary mb-3" style="max-width: 90%;">
                     <div class="card-by-item">
-                        <div class="card-date"> 6/25/18</div>
+                        <div class="card-date"> 7/01/18</div>
                         <div class="card-expense">  {{title}}</div>
-                        <div class="card-amount">{{amount}}</div>
+                        <div class="card-amount">${{amount}}</div>
                         <div class='card-cat'>  </div>
                         <div class=".card-btn"><button data-id="{{id}}" class="btn btn-danger delete-expense" ><i class="fas fa-trash-alt"></i></button></div>
                 </div>
