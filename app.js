@@ -345,6 +345,7 @@ app.get('/tracking', (req, res) => {
                 thebudget['tally'] = 0
                 thebudget['catper'] = 0
                 thebudget['status'] = 'GreenYellow '
+                thebudget['header'] = ' '
 
             
                 for(var j = 0 ; j < allItems.length;j++){
@@ -353,15 +354,15 @@ app.get('/tracking', (req, res) => {
                         
                         if (theItem.category === thebudget.id){
                             thebudget['expenses'].push(theItem)
-                            thebudget['tally']=parseFloat(thebudget['tally'])+parseFloat(theItem.amount)
+                            thebudget['tally']=(parseFloat(thebudget['tally'])+parseFloat(theItem.amount)).toFixed(2)
                             if (parseFloat(thebudget['tally']) > 0)
                             {
                                 let m = ((parseFloat(thebudget['tally'])/parseFloat(thebudget.budget))*100)
                                 catper = m.toFixed(2);
                                 thebudget['catper']=catper
-                                if (catper > 80 && catper < 99){
+                                if (catper > 80 && catper <= 100){
                                     thebudget['status'] = 'yellow'}
-                                if (catper > 99){
+                                if (catper > 100){
                                     thebudget['status'] = 'red'
                                     }
                             }    
@@ -370,7 +371,7 @@ app.get('/tracking', (req, res) => {
                     else{
                         if (thebudget.id == 'Unassigned' ){
  // Trying to pass a mustache tag
-                            //header = ' '
+                            thebudget['header'] = 'none'
                             thebudget['expenses'].push(theItem)
                             thebudget['tally']=parseFloat(thebudget['tally'])+parseFloat(theItem.amount)
                         }
